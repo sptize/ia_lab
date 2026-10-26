@@ -1,13 +1,26 @@
 package com.busquedainformada.ia_lab.algoritmos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class BusquedaPrimeroMejorTest {
+
+    @Test
+    void claseBaseYHooksNoSonParteDeLaApiPublica() throws ReflectiveOperationException {
+        assertFalse(Modifier.isPublic(BusquedaPrimeroMejor.class.getModifiers()));
+        int prioridadModifiers = BusquedaPrimeroMejor.class
+                .getDeclaredMethod("prioridad", double.class, double.class).getModifiers();
+        int encolarModifiers = BusquedaPrimeroMejor.class
+                .getDeclaredMethod("encolar", Double.class, double.class).getModifiers();
+        assertFalse(Modifier.isPublic(prioridadModifiers) || Modifier.isProtected(prioridadModifiers));
+        assertFalse(Modifier.isPublic(encolarModifiers) || Modifier.isProtected(encolarModifiers));
+    }
 
     @Test
     void pasoRechazaCostosNegativosONoFinitos() {
@@ -57,6 +70,19 @@ class BusquedaPrimeroMejorTest {
                 () -> new BusquedaAEstrella().solucionar(prioridadNoFinita));
         assertThrows(IllegalArgumentException.class,
                 () -> new BusquedaAEstrella().solucionar(costoAcumuladoNoFinito));
+    }
+
+    @Test
+    void resultadoBusquedaValidaLaEstructuraYLosContadores() {
+        assertEquals(1, new ResultadoBusqueda<>(List.of("S", "G"), List.of("avanzar"), 2, 1).acciones().size());
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultadoBusqueda<>(List.of("S", "G"), List.of(), 2, 1));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultadoBusqueda<>(List.of(), List.of(), 0, 0));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultadoBusqueda<>(List.of("S"), List.of(), -1, 0));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultadoBusqueda<>(List.of("S"), List.of(), 0, -1));
     }
 
     private static IProblemaBusqueda<String> problemaConHeuristica(double heuristica) {

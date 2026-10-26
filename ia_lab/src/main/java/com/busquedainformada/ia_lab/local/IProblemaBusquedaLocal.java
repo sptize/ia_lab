@@ -31,7 +31,7 @@ public interface IProblemaBusquedaLocal<S> {
      * Calcula la función de costo que se debe minimizar.
      *
      * @param estado estado cuyo costo se calcula
-     * @return costo del estado; cero representa una solución
+     * @return costo finito del estado que se debe minimizar; cero representa una solución
      */
     double costo(S estado);
 

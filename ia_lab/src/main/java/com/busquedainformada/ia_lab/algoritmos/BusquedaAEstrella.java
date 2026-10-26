@@ -19,7 +19,7 @@ public final class BusquedaAEstrella extends BusquedaPrimeroMejor {
      * {@inheritDoc}
      */
     @Override
-    protected double prioridad(double costoCamino, double heuristica) {
+    double prioridad(double costoCamino, double heuristica) {
         return costoCamino + heuristica;
     }
 
@@ -27,7 +27,7 @@ public final class BusquedaAEstrella extends BusquedaPrimeroMejor {
      * {@inheritDoc}
      */
     @Override
-    protected boolean encolar(Double costoConocido, double costoCandidato) {
+    boolean encolar(Double costoConocido, double costoCandidato) {
         return costoConocido == null || costoCandidato < costoConocido;
     }
 }

@@ -23,7 +23,7 @@ public enum Direccion {
      *
      * @return etiqueta de la dirección
      */
-    public String getEtiqueta() {
+    String getEtiqueta() {
         return etiqueta;
     }
 
@@ -32,7 +32,7 @@ public enum Direccion {
      *
      * @return desplazamiento de fila
      */
-    public int getFilaDelta() {
+    int getFilaDelta() {
         return filaDelta;
     }
 
@@ -41,7 +41,7 @@ public enum Direccion {
      *
      * @return desplazamiento de columna
      */
-    public int getColDelta() {
+    int getColDelta() {
         return colDelta;
     }
 }

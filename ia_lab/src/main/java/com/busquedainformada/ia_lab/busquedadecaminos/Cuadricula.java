@@ -2,6 +2,7 @@ package com.busquedainformada.ia_lab.busquedadecaminos;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -119,13 +120,18 @@ public final class Cuadricula {
     }
 
     /**
-     * Devuelve el costo de entrar a la celda indicada.
+     * Devuelve el costo de entrar a una celda transitable.
      *
      * @param posicion posición de la celda
      * @return costo de entrada a la celda
-     * @throws IndexOutOfBoundsException si la posición está fuera de la cuadrícula
+     * @throws NullPointerException si {@code posicion} es {@code null}
+     * @throws IllegalArgumentException si la posición está fuera de la cuadrícula o es una pared
      */
-    public int costoDe(Posicion posicion) {
+    int costoDe(Posicion posicion) {
+        Objects.requireNonNull(posicion, "posicion");
+        if (!esTransitable(posicion)) {
+            throw new IllegalArgumentException("la posición no es transitable: " + posicion);
+        }
         return costos[posicion.fila()][posicion.columna()];
     }
 

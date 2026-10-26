@@ -22,7 +22,7 @@ import java.util.PriorityQueue;
  * reconstruir el camino; por eso sus datos de igualdad y hash deben permanecer
  * estables mientras se ejecuta la búsqueda.</p>
  */
-public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
+abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
 
     /**
      * Calcula la prioridad de expansión del estado.
@@ -31,14 +31,14 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
      * @param heuristica estimación del costo restante hasta la meta
      * @return prioridad de la entrada; un valor menor se expande antes
      */
-    protected abstract double prioridad(double costoCamino, double heuristica);
+    abstract double prioridad(double costoCamino, double heuristica);
 
     /**
      * @param costoConocido     mejor costo conocido hacia el estado, o {@code null} si es nuevo
      * @param costoCandidato    costo del nuevo camino hacia ese estado
      * @return {@code true} si el candidato debe añadirse a la frontera
      */
-    protected abstract boolean encolar(Double costoConocido, double costoCandidato);
+    abstract boolean encolar(Double costoConocido, double costoCandidato);
 
     /**
      * Ejecuta la búsqueda primero el mejor en el problema indicado.
