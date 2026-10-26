@@ -17,7 +17,10 @@ import java.util.PriorityQueue;
  *
  * <p>El problema debe cumplir las precondiciones de {@link IProblemaBusqueda}:
  * costos finitos no negativos y heurísticas finitas no negativas. La terminación requiere
- * un espacio de estados alcanzables finito y ramificación finita.</p>
+ * un espacio de estados alcanzables finito y ramificación finita. Los estados
+ * se usan como claves de un {@link HashMap} y se conservan en los nodos para
+ * reconstruir el camino; por eso sus datos de igualdad y hash deben permanecer
+ * estables mientras se ejecuta la búsqueda.</p>
  */
 public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
 

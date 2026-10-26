@@ -5,6 +5,10 @@ import java.util.List;
 /**
  * Contrato de un problema de búsqueda en grafo con heurística.
  * Los algoritmos dependen solo de esta interfaz, no de un dominio concreto.
+ * Los estados deben ser inmutables mientras se usan en la búsqueda y mientras
+ * el resultado los conserve. En particular, los datos que determinan
+ * {@code equals} y {@code hashCode} no deben cambiar. Esta condición también
+ * aplica a los objetos mutables anidados dentro de un estado.
  * Los problemas deben proporcionar sucesores con costos finitos y no negativos,
  * además de una heurística finita y no negativa para cada estado evaluado. Para que una
  * búsqueda termine, el espacio de estados alcanzables debe ser finito y cada
@@ -15,7 +19,8 @@ import java.util.List;
  * hasta una meta. Esta propiedad depende del dominio y no puede comprobarse
  * genéricamente en tiempo de ejecución.</p>
  *
- * @param <S> tipo del estado (debe implementar equals/hashCode)
+ * @param <S> tipo del estado (inmutable y con {@code equals}/{@code hashCode}
+ *            estables)
  */
 public interface IProblemaBusqueda<S> {
 

@@ -11,6 +11,10 @@ import java.util.List;
  * @param acciones       acciones aplicadas (siempre {@code estados.size() - 1})
  * @param costoTotal     costo acumulado g(meta)
  * @param nodosExpandidos cantidad de nodos expandidos
+ *
+ * <p>Las listas se copian y son inmutables, pero sus estados no se clonan:
+ * el resultado conserva las mismas referencias recibidas. Los estados deben
+ * ser inmutables para que el camino no cambie después de la búsqueda.</p>
  */
 public record ResultadoBusqueda<S>(List<S> estados, List<String> acciones, double costoTotal, int nodosExpandidos) {
 

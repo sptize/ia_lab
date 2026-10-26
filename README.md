@@ -64,6 +64,13 @@ El costo de cada movimiento es el costo de entrada a la celda destino. La búsqu
 
 ## Contrato y optimalidad de búsqueda
 
+Los estados deben ser inmutables durante la búsqueda y mientras el resultado
+los conserve. En particular, los datos que intervienen en `equals` y
+`hashCode` deben permanecer estables, también cuando estén dentro de objetos
+anidados. El motor usa los estados como claves de un `HashMap` y los retiene
+para reconstruir el camino. El resultado copia las listas, pero no clona sus
+estados; por eso no protege frente a la mutación de estos objetos.
+
 Los problemas que implementan `IProblemaBusqueda` deben producir transiciones
 con costos finitos y no negativos y una heurística finita y no negativa para cada estado
 evaluado. La búsqueda requiere un espacio de estados alcanzables finito y un
