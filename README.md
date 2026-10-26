@@ -62,6 +62,18 @@ S999999999G
 
 El costo de cada movimiento es el costo de entrada a la celda destino. La búsqueda permite movimientos en las cuatro direcciones; la heurística es la distancia Manhattan.
 
+## Contrato y optimalidad de búsqueda
+
+Los problemas que implementan `IProblemaBusqueda` deben producir transiciones
+con costos finitos y no negativos y una heurística finita y no negativa para cada estado
+evaluado. La búsqueda requiere un espacio de estados alcanzables finito y un
+número finito de sucesores por estado para garantizar que termine. A* encuentra
+una solución de costo mínimo cuando, además, la heurística es admisible (no
+sobreestima el costo mínimo restante); la admisibilidad depende del problema y
+no puede validarse genéricamente en tiempo de ejecución. La heurística no tiene
+que ser consistente porque A* vuelve a abrir estados al encontrar un camino
+mejor.
+
 ## Estructura y patrones
 
 ```text

@@ -5,6 +5,15 @@ import java.util.List;
 /**
  * Contrato de un problema de búsqueda en grafo con heurística.
  * Los algoritmos dependen solo de esta interfaz, no de un dominio concreto.
+ * Los problemas deben proporcionar sucesores con costos finitos y no negativos,
+ * además de una heurística finita y no negativa para cada estado evaluado. Para que una
+ * búsqueda termine, el espacio de estados alcanzables debe ser finito y cada
+ * estado debe tener un número finito de sucesores.
+ *
+ * <p>En particular, A* devuelve una solución de costo mínimo si la heurística
+ * es admisible: para todo estado, no sobreestima el costo real mínimo restante
+ * hasta una meta. Esta propiedad depende del dominio y no puede comprobarse
+ * genéricamente en tiempo de ejecución.</p>
  *
  * @param <S> tipo del estado (debe implementar equals/hashCode)
  */
@@ -37,7 +46,8 @@ public interface IProblemaBusqueda<S> {
      * Estima el costo restante desde el estado hasta la meta.
      *
      * @param estado estado cuya distancia estimada se calcula
-     * @return estimación heurística del costo restante
+     * @return estimación heurística finita y no negativa del costo restante; para garantizar
+     *         optimalidad con A*, no debe sobreestimar el costo mínimo real
      */
     double heuristica(S estado);
 }

@@ -14,6 +14,10 @@ import java.util.PriorityQueue;
  *   <li>{@link #prioridad}: cómo se ordena la frontera (f = g + h en A*, f = h en Greedy).</li>
  *   <li>{@link #encolar}: cuándo vale la pena (re)encolar un estado ya conocido.</li>
  * </ul>
+ *
+ * <p>El problema debe cumplir las precondiciones de {@link IProblemaBusqueda}:
+ * costos finitos no negativos y heurísticas finitas no negativas. La terminación requiere
+ * un espacio de estados alcanzables finito y ramificación finita.</p>
  */
 public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
 
@@ -40,6 +44,8 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
      * @param problema problema que se va a resolver
      * @return resultado de la búsqueda, o vacío si no se alcanza una meta
      * @throws NullPointerException si {@code problema} es {@code null}
+     * @throws IllegalArgumentException si el problema produce costos o
+     *         heurísticas negativas/no finitas, o una suma/prioridad no finita
      */
     @Override
     public final <S> Optional<ResultadoBusqueda<S>> solucionar(IProblemaBusqueda<S> problema) {
@@ -51,8 +57,9 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
         int expandido = 0;
 
         S inicial = problema.estadoInicial();
-        Nodo<S> raiz = Nodo.raiz(inicial, problema.heuristica(inicial));
-        frontera.add(new QueueEntry<>(raiz, prioridad(0, raiz.heuristica()), secuencia++));
+        double heuristicaInicial = validarHeuristica(problema.heuristica(inicial));
+        Nodo<S> raiz = Nodo.raiz(inicial, heuristicaInicial);
+        frontera.add(new QueueEntry<>(raiz, calcularPrioridad(0, raiz.heuristica()), secuencia++));
         mejoresCostos.put(inicial, 0.0);
 
         while (!frontera.isEmpty()) {
@@ -68,14 +75,33 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
             expandido++;
             for (Paso<S> paso : problema.sucesores(actual.estado())) {
                 double costoCandidato = actual.costoCamino() + paso.costo();
+                if (!Double.isFinite(costoCandidato)) {
+                    throw new IllegalArgumentException("el costo acumulado del camino debe ser finito");
+                }
                 if (encolar(mejoresCostos.get(paso.estado()), costoCandidato)) {
                     mejoresCostos.put(paso.estado(), costoCandidato);
-                    Nodo<S> hijo = actual.hijo(paso, problema.heuristica(paso.estado()));
-                    frontera.add(new QueueEntry<>(hijo, prioridad(hijo.costoCamino(), hijo.heuristica()), secuencia++));
+                    double heuristica = validarHeuristica(problema.heuristica(paso.estado()));
+                    Nodo<S> hijo = actual.hijo(paso, heuristica);
+                    frontera.add(new QueueEntry<>(hijo, calcularPrioridad(hijo.costoCamino(), hijo.heuristica()), secuencia++));
                 }
             }
         }
         return Optional.empty();
+    }
+
+    private static double validarHeuristica(double heuristica) {
+        if (!Double.isFinite(heuristica) || heuristica < 0) {
+            throw new IllegalArgumentException("la heurística debe ser finita y no negativa");
+        }
+        return heuristica;
+    }
+
+    private double calcularPrioridad(double costoCamino, double heuristica) {
+        double valor = prioridad(costoCamino, heuristica);
+        if (!Double.isFinite(valor)) {
+            throw new IllegalArgumentException("la prioridad de búsqueda debe ser finita");
+        }
+        return valor;
     }
 
     /**
