@@ -57,7 +57,7 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
         PriorityQueue<QueueEntry<S>> frontera = new PriorityQueue<>(ordenDeEntrada());
         Map<S, Double> mejoresCostos = new HashMap<>();
         long secuencia = 0;
-        int expandido = 0;
+        int expandidos = 0;
 
         S inicial = problema.estadoInicial();
         double heuristicaInicial = validarHeuristica(problema.heuristica(inicial));
@@ -72,10 +72,10 @@ public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
                 continue; // entrada obsoleta: se encontró un camino mejor después de encolarla
             }
             if (problema.esMeta(actual.estado())) {
-                return Optional.of(ResultadoBusqueda.deObjetivo(actual, expandido));
+                return Optional.of(ResultadoBusqueda.deObjetivo(actual, expandidos));
             }
 
-            expandido++;
+            expandidos++;
             for (Paso<S> paso : problema.sucesores(actual.estado())) {
                 double costoCandidato = actual.costoCamino() + paso.costo();
                 if (!Double.isFinite(costoCandidato)) {

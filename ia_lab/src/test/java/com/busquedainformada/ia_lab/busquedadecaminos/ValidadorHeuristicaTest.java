@@ -1,5 +1,6 @@
 package com.busquedainformada.ia_lab.busquedadecaminos;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,6 +15,8 @@ import java.util.List;
 import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
 import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
 import com.ia_lab.busquedainformadadecaminos.grafos.Grafo;
+import com.ia_lab.busquedainformadadecaminos.grafos.GrafoProblema;
+import com.ia_lab.busquedainformadadecaminos.grafos.ValidadorHeuristica;
 import com.ia_lab.consola.ComandoBusquedaCaminosGrafos;
 import com.ia_lab.consola.Consola;
 
@@ -29,17 +32,17 @@ class ValidadorHeuristicaTest {
     @Test
     void laAdmisibilidadDependeDeLaDireccionDeLasAristas() {
         IllegalArgumentException noDirigido = assertThrows(IllegalArgumentException.class,
-                () -> Grafo.parsear(lineas("no", "A 15", "S 6", "G 0")));
+                () -> ValidadorHeuristica.validar(Grafo.parsear(lineas("no", "A 15", "S 6", "G 0"))));
 
         assertTrue(noDirigido.getMessage().contains("h(A) = 15.0"));
         assertTrue(noDirigido.getMessage().contains("(11.0)"));
-        assertDoesNotThrow(() -> Grafo.parsear(lineas("sí", "A 15", "S 6", "G 0")));
+        assertDoesNotThrow(() -> ValidadorHeuristica.validar(Grafo.parsear(lineas("sí", "A 15", "S 6", "G 0"))));
     }
 
     @Test
     void rechazaHeuristicaPositivaEnLaMeta() {
         IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
-                () -> Grafo.parsear(lineas("no", "A 2", "S 6", "G 5")));
+                () -> ValidadorHeuristica.validar(Grafo.parsear(lineas("no", "A 2", "S 6", "G 5"))));
 
         assertTrue(error.getMessage().contains("h(G) = 5.0"));
         assertTrue(error.getMessage().contains("(0.0)"));
@@ -49,13 +52,22 @@ class ValidadorHeuristicaTest {
     @Test
     void informaTodosLosNodosConHeuristicaInadmisible() {
         IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
-                () -> Grafo.parsear(lineas("no", "A 15", "S 50", "G 0")));
+                () -> ValidadorHeuristica.validar(Grafo.parsear(lineas("no", "A 15", "S 50", "G 0"))));
 
         assertTrue(error.getMessage().contains("h(S) = 50.0"));
         assertTrue(error.getMessage().contains("(7.0)"));
         assertTrue(error.getMessage().contains("h(A) = 15.0"));
         assertTrue(error.getMessage().contains("(11.0)"));
         assertNoLineNumberPrefix(error.getMessage());
+    }
+
+    @Test
+    void parseaYGestionaGrafosConHeuristicasInadmisiblesSinValidacionAutomatica() {
+        Grafo grafo = Grafo.parsear(lineas("no", "A 15", "S 50", "G 0"));
+
+        var resultado = new BusquedaAEstrella().solucionar(new GrafoProblema(grafo)).orElseThrow();
+
+        assertEquals(7.0, resultado.costoTotal());
     }
 
     @Test

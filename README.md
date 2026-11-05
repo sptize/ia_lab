@@ -115,6 +115,7 @@ C G 3
 - Cada nodo tiene un nombre y una heurística asociada.
 - Cada arista se expresa como `origen destino costo`.
 - La búsqueda admite grafos ponderados y la heurística depende del problema concreto.
+- El análisis del grafo no comprueba automáticamente la admisibilidad de la heurística. Para hacerlo explícitamente en pruebas o experimentos, se puede llamar a `ValidadorHeuristica.validar(grafo)`.
 
 ## Estructura del proyecto
 
@@ -184,7 +185,7 @@ Los problemas implementados deben:
 - tener un espacio de estados alcanzables finito,
 - limitar el número de sucesores por estado para garantizar terminación.
 
-A* encuentra una solución de costo mínimo cuando la heurística es admisible, es decir, cuando no sobreestima el costo mínimo restante. La admisibilidad depende del dominio concreto y no puede validarse genéricamente en tiempo de ejecución.
+A* garantiza una solución de costo mínimo bajo las condiciones correspondientes: costos finitos y no negativos, una heurística admisible (no sobreestima el costo mínimo restante), un espacio de estados alcanzables finito y una gestión correcta de los estados. En particular, los estados deben tener una identidad estable mediante `equals` y `hashCode`, y el algoritmo debe conservar el mejor costo encontrado y volver a explorar un estado si aparece un camino más barato. Esta implementación reabre estados y, por ello, no requiere una heurística consistente. La admisibilidad depende del dominio concreto; `ValidadorHeuristica` puede comprobarla explícitamente para grafos, pero no se ejecuta automáticamente.
 
 ## Estado del proyecto
 

@@ -25,12 +25,12 @@ public final class IaLab {
         List<Comando> comandos = List.of(
                 //Problemas aplicados a casos de uso concretos
                 new ComandoBusquedaCaminos("A* - laberinto", List.of(new BusquedaAEstrella())),
-                new ComandoBusquedaCaminos("Greedy Best-First - laberinto", List.of(new BusquedaPrimeroMejorVoraz())),
-                new ComandoOchoReinas(),                
+                new ComandoBusquedaCaminos("Greedy Best-First - laberinto", List.of(new BusquedaPrimeroMejorVoraz())),                              
                 new ComandoBusquedaCaminos("Comparar A* vs Greedy en laberinto", List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz())),
+                new ComandoOchoReinas(),  
                 //Problemas que usan grafos a modo general
-                new ComandoBusquedaCaminosGrafos("A* - camino de menor costo en grafos", List.of(new BusquedaAEstrella())),
-                new ComandoBusquedaCaminosGrafos("Greedy Best-First - camino en grafos", List.of(new BusquedaPrimeroMejorVoraz())),
+                new ComandoBusquedaCaminosGrafos("A* - grafos", List.of(new BusquedaAEstrella())),
+                new ComandoBusquedaCaminosGrafos("Greedy Best-First - grafos", List.of(new BusquedaPrimeroMejorVoraz())),
                 new ComandoBusquedaCaminosGrafos("Comparar A* vs Greedy en un grafo", List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz()))
 
             

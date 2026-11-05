@@ -89,6 +89,10 @@ public final class Grafo {
      * directiva. Las secciones de nodos y aristas pueden aparecer en cualquier
      * orden.</p>
      *
+     * <p>El análisis no valida la admisibilidad de las heurísticas. Para
+     * comprobarla explícitamente en pruebas o experimentos, se puede invocar
+     * {@link ValidadorHeuristica#validar(Grafo)}.</p>
+     *
      * @param lineas líneas de entrada, con exactamente un inicio y una meta
      * @return grafo analizado e inmutable
      * @throws IllegalArgumentException si la lista es nula, el grafo no contiene nodos,
@@ -114,7 +118,6 @@ public final class Grafo {
             }
         }
         Grafo grafo = parser.construir();
-        ValidadorHeuristica.validar(grafo);
         return grafo;
     }
 
@@ -284,27 +287,4 @@ public final class Grafo {
         }
     }
 
-
-    /**
-     * Construye el grafo de ejemplo utilizado por la aplicación.
-     *
-     * @return grafo de ejemplo con inicio {@code S} y meta {@code G}
-     */
-    public static Grafo ejemplo() {
-        Map<String, List<Arista>> adyacencias = new LinkedHashMap<>();
-        adyacencias.put("S", List.of(new Arista("A", 4), new Arista("B", 2)));
-        adyacencias.put("A", List.of(new Arista("G", 20)));
-        adyacencias.put("B", List.of(new Arista("C", 2)));
-        adyacencias.put("C", List.of(new Arista("G", 3)));
-        adyacencias.put("G", List.of());
-        
-        Map<String, Double> heuristicas = Map.of(
-            "S", 6.0,
-            "A", 2.0,
-            "B", 4.0,
-            "C", 3.0,
-            "G", 0.0
-        );
-        return new Grafo("S", "G", adyacencias, heuristicas);
-    }
 }

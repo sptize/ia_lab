@@ -9,7 +9,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
-/** Valida que las heurísticas de un grafo sean admisibles respecto a su meta. */
+/**
+ * Herramienta opcional para comprobar que las heurísticas de un grafo sean
+ * admisibles respecto a su meta. No se ejecuta automáticamente al analizar un
+ * grafo.
+ */
 public final class ValidadorHeuristica {
 
     private static final double TOLERANCIA = 1e-9;

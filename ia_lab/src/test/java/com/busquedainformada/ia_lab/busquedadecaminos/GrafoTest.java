@@ -12,26 +12,7 @@ import com.ia_lab.busquedainformadadecaminos.grafos.GrafoProblema;
 
 public class GrafoTest {
      public static void main(String[] a) {
-        Grafo grafo = Grafo.ejemplo();
-
-        //Test de búsqueda de caminos en el grafo usando A* y Greedy Best-First Search
-        var problema = new GrafoProblema(grafo);
-        List<IAlgoritmoBusqueda> algoritmos = List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz());
         
-        for (IAlgoritmoBusqueda algoritmo : algoritmos) {
-
-            var resultado = algoritmo.solucionar(problema);
-            resultado.ifPresentOrElse(r -> {
-                System.out.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
-                System.out.println("Costo total: " + r.costoTotal());
-                System.out.println("Pasos: " + r.acciones().size());
-                System.out.println("Nodos expandidos: " + r.nodosExpandidos());
-                System.out.println("Movimientos: " + String.join(" , ", r.acciones()));
-                System.out.println();
-            }, () -> {
-                System.out.println("No se encontró solución para el algoritmo: " + algoritmo.getClass().getSimpleName());
-            });
-        }
       
         //Tests de parsing       
         Grafo grafoParseado = Grafo.parsear(
