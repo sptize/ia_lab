@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import com.ia_lab.busquedainformadadecaminos.laberintos.Cuadricula;
+import com.ia_lab.busquedainformadadecaminos.laberintos.Posicion;
+
 class CuadriculaTest {
 
     @Test

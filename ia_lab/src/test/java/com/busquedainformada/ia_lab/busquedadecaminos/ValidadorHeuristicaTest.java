@@ -10,10 +10,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import com.busquedainformada.ia_lab.algoritmos.BusquedaAEstrella;
-import com.busquedainformada.ia_lab.algoritmos.BusquedaPrimeroMejorVoraz;
-import com.busquedainformada.ia_lab.consola.ComandoBusquedaCaminosGrafos;
-import com.busquedainformada.ia_lab.consola.Consola;
+
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
+import com.ia_lab.busquedainformadadecaminos.grafos.Grafo;
+import com.ia_lab.consola.ComandoBusquedaCaminosGrafos;
+import com.ia_lab.consola.Consola;
+
 import org.junit.jupiter.api.Test;
 
 class ValidadorHeuristicaTest {

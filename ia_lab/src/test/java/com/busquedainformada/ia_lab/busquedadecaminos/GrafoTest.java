@@ -2,9 +2,13 @@ package com.busquedainformada.ia_lab.busquedadecaminos;
 
 import java.util.List;
 
-import com.busquedainformada.ia_lab.algoritmos.BusquedaAEstrella;
-import com.busquedainformada.ia_lab.algoritmos.BusquedaPrimeroMejorVoraz;
-import com.busquedainformada.ia_lab.algoritmos.IAlgoritmoBusqueda;
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
+import com.ia_lab.busquedainformadadecaminos.core.IAlgoritmoBusqueda;
+import com.ia_lab.busquedainformadadecaminos.grafos.Grafo;
+import com.ia_lab.busquedainformadadecaminos.grafos.GrafoProblema;
+
+
 
 public class GrafoTest {
      public static void main(String[] a) {

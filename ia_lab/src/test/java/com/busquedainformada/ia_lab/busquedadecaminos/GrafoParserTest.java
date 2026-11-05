@@ -6,8 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import com.busquedainformada.ia_lab.algoritmos.BusquedaAEstrella;
+
 import org.junit.jupiter.api.Test;
+
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
+import com.ia_lab.busquedainformadadecaminos.grafos.Grafo;
+import com.ia_lab.busquedainformadadecaminos.grafos.GrafoProblema;
 
 class GrafoParserTest {
 

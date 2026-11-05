@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
+import com.ia_lab.busquedainformadadecaminos.core.IProblemaBusqueda;
+import com.ia_lab.busquedainformadadecaminos.core.Paso;
+import com.ia_lab.busquedainformadadecaminos.core.ResultadoBusqueda;
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejor;
+
 class BusquedaPrimeroMejorTest {
 
     @Test
