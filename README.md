@@ -1,56 +1,81 @@
 # ia_lab
 
-Proyecto de búsqueda informada y búsqueda local, implementado en Java 25. El proyecto Maven está dentro del directorio `ia_lab/`; ejecuta los comandos de compilación desde ese directorio.
+Proyecto Java para experimentar con algoritmos de búsqueda informada y búsqueda local. Incluye resolución de rutas en cuadrículas y grafos ponderados, así como una implementación de Hill Climbing para el problema de las 8 reinas.
 
-## Menú interactivo
+## ¿Qué incluye?
 
-| Opción | Algoritmo | Qué hace |
+- Búsqueda informada en cuadrículas con costos variables:
+  - A*
+  - Greedy Best-First
+  - comparación directa entre ambos algoritmos
+- Búsqueda informada en grafos ponderados
+- Búsqueda local para las 8 reinas con reinicios aleatorios
+- Menú interactivo en consola para probar cada caso
+
+## Menú principal
+
+El programa presenta estas opciones:
+
+| Opción | Algoritmo / problema | Descripción |
 |---|---|---|
-| 1 | **A\*** | Busca un camino de costo mínimo en una cuadrícula con terrenos de distinto costo. |
-| 2 | **Greedy Best-First** | Guía la búsqueda por la heurística; no garantiza un camino óptimo. |
-| 3 | **Hill Climbing** | Resuelve el problema de las 8 reinas y permite configurar hasta 1000 reinicios aleatorios. |
-| 4 | **Comparar A\* vs Greedy** | Ejecuta ambos algoritmos sobre el mismo mapa y muestra sus resultados. |
+| 1 | A* en laberinto | Busca un camino mínimo de costo en una cuadrícula con costes por celda. |
+| 2 | Greedy Best-First en laberinto | Prioriza la heurística y puede producir rutas no óptimas. |
+| 3 | Hill Climbing - 8 reinas | Resuelve el problema de las 8 reinas con reinicios aleatorios. |
+| 4 | Comparar A* vs Greedy en laberinto | Ejecuta ambos sobre el mismo mapa y compara resultados. |
+| 5 | A* en grafos | Calcula un camino de menor costo en un grafo ponderado. |
+| 6 | Greedy Best-First en grafos | Busca un camino guiado por la heurística en grafos. |
+| 7 | Comparar A* vs Greedy en un grafo | Evalúa ambos algoritmos sobre el mismo grafo. |
+| 0 | Salir | Cierra el programa. |
 
-El menú permite escoger el mapa de ejemplo o introducir uno propio para las opciones de búsqueda de caminos. **Minimax aún no está implementado ni aparece en el menú.**
+> Minimax no está implementado y no aparece en el menú.
 
-## Compilar y ejecutar
+## Requisitos
 
-Se requiere Java 25. Desde la raíz del repositorio, entra primero al directorio del proyecto:
+- Java 25
+- Maven
 
-```text
+## Ejecutar el proyecto
+
+Desde la raíz del repositorio, entra al directorio del proyecto:
+
+```bash
 cd ia_lab
 ```
 
-Con Maven:
+Compila y ejecuta:
 
 ```bash
 mvn package
 java -cp target/classes com.busquedainformada.ia_lab.IaLab
 ```
 
-También se puede compilar directamente desde el directorio `ia_lab/`:
+También puedes compilar directamente con `javac` si lo prefieres:
 
 ```bash
 javac -d out $(find src/main/java -name "*.java")
 java -cp out com.busquedainformada.ia_lab.IaLab
 ```
 
-En Windows (PowerShell):
+En PowerShell (Windows):
 
 ```powershell
 javac -d out (Get-ChildItem -Recurse src\main\java -Filter *.java).FullName
 java -cp out com.busquedainformada.ia_lab.IaLab
 ```
 
-## Formato de entrada de mapas
+## Formato de entrada para mapas
 
-Elige insertar un mapa y escribe una fila por línea. Una línea vacía termina la entrada. El mapa debe ser rectangular y contener exactamente un inicio y una meta.
+Para las opciones de cuadrículas, puedes introducir tu propio mapa escribiendo una fila por línea. La entrada termina con una línea vacía.
+
+Reglas:
 
 - `S`: inicio
 - `G`: meta
 - `#`: pared
-- `.`: terreno transitable de costo 1
+- `.`: terreno transitable con costo 1
 - `1`-`9`: terreno transitable con el costo indicado
+
+El mapa debe ser rectangular y contener exactamente un inicio y una meta.
 
 Ejemplo:
 
@@ -60,53 +85,87 @@ S999999999G
 ..3........
 ```
 
-El costo de cada movimiento es el costo de entrada a la celda destino. La búsqueda permite movimientos en las cuatro direcciones; la heurística es la distancia Manhattan.
+La heurística utilizada es la distancia Manhattan. El costo de cada movimiento es el costo de entrar a la celda destino.
 
-## Contrato y optimalidad de búsqueda
+## Formato de entrada para grafos
 
-Los estados deben ser inmutables durante la búsqueda y mientras el resultado
-los conserve. En particular, los datos que intervienen en `equals` y
-`hashCode` deben permanecer estables, también cuando estén dentro de objetos
-anidados. El motor usa los estados como claves de un `HashMap` y los retiene
-para reconstruir el camino. El resultado copia las listas, pero no clona sus
-estados; por eso no protege frente a la mutación de estos objetos.
+En las opciones de grafos, el programa lee un grafo textual con secciones de nodos y aristas.
 
-Los problemas que implementan `IProblemaBusqueda` deben producir transiciones
-con costos finitos y no negativos y una heurística finita y no negativa para cada estado
-evaluado. La búsqueda requiere un espacio de estados alcanzables finito y un
-número finito de sucesores por estado para garantizar que termine. A* encuentra
-una solución de costo mínimo cuando, además, la heurística es admisible (no
-sobreestima el costo mínimo restante); la admisibilidad depende del problema y
-no puede validarse genéricamente en tiempo de ejecución. La heurística no tiene
-que ser consistente porque A* vuelve a abrir estados al encontrar un camino
-mejor.
+Formato de ejemplo:
 
-## Estructura y patrones
+```text
+# ejemplo de grafo
+inicio: S
+meta: G
+nodos:
+S 6
+A 2
+B 4
+C 3
+G 0
+aristas:
+S A 4
+A G 20
+S B 2
+B C 2
+C G 3
+```
+
+- Las directivas `inicio:`, `meta:` y `nodos:` / `aristas:` definen la estructura del grafo.
+- Cada nodo tiene un nombre y una heurística asociada.
+- Cada arista se expresa como `origen destino costo`.
+- La búsqueda admite grafos ponderados y la heurística depende del problema concreto.
+
+## Estructura del proyecto
 
 ```text
 com.busquedainformada.ia_lab
-├── IaLab                         composición de comandos y punto de entrada
+├── IaLab                               punto de entrada y composición del menú
 ├── consola/
-│   ├── Comando                    contrato de las opciones del menú
-│   ├── ComandoBusquedaCaminos     ejecuta uno o varios algoritmos de caminos
-│   ├── ComandoOchoReinas          configura y ejecuta Hill Climbing
-│   ├── Consola                    fachada de entrada y salida
-│   └── Menu                       presenta y ejecuta las opciones
+│   ├── Comando                         interfaz para cada opción del menú
+│   ├── ComandoBusquedaCaminos          búsqueda en cuadrículas
+│   ├── ComandoBusquedaCaminosGrafos   búsqueda en grafos
+│   ├── ComandoOchoReinas              configuración y ejecución de Hill Climbing
+│   ├── Consola                         fachada de entrada/salida
+│   └── Menu                            despliegue del menú principal
 ├── algoritmos/
-│   ├── IProblemaBusqueda          contrato genérico del problema
-│   ├── IAlgoritmoBusqueda         contrato de los algoritmos
-│   ├── BusquedaPrimeroMejor       bucle compartido (Template Method)
-│   ├── BusquedaAEstrella          estrategia A*
-│   └── BusquedaPrimeroMejorVoraz  estrategia Greedy Best-First
+│   ├── IProblemaBusqueda              contrato genérico del problema
+│   ├── IAlgoritmoBusqueda             contrato de cada algoritmo
+│   ├── BusquedaPrimeroMejor           ciclo compartido (Template Method)
+│   ├── BusquedaAEstrella              estrategia A*
+│   ├── BusquedaPrimeroMejorVoraz      estrategia Greedy Best-First
+│   └── ResultadoBusqueda              resumen del resultado de una búsqueda
 ├── busquedadecaminos/
-│   ├── Cuadricula                 representación y validación del mapa
-│   └── CuadriculaProblema         adapta la cuadrícula al contrato de búsqueda
+│   ├── Cuadricula                     representación del mapa
+│   ├── CuadriculaProblema             adaptación del mapa al problema de búsqueda
+│   ├── Grafo                         estructura de grafo ponderado
+│   └── GrafoProblema                 adaptación del grafo al problema de búsqueda
 └── local/
-    ├── HillClimbing               búsqueda local con reinicios opcionales
-    └── ProblemaOchoReinas         dominio de las 8 reinas
+    ├── HillClimbing                   búsqueda local con reinicios
+    ├── ProblemaOchoReinas            dominio del problema de las 8 reinas
+    └── TableroOchoReinas             representación del tablero
 ```
 
-- **Command:** cada opción del menú encapsula una acción.
-- **Strategy:** A* y Greedy son intercambiables mediante `IAlgoritmoBusqueda`.
-- **Template Method:** `BusquedaPrimeroMejor` implementa el ciclo común; sus subclases definen la prioridad y cuándo encolar un estado.
-- **Adaptación del dominio:** `CuadriculaProblema` y `ProblemaOchoReinas` conectan sus dominios con los contratos de búsqueda correspondientes.
+## Patrones de diseño
+
+- Strategy: A* y Greedy Best-First implementan la misma interfaz y se intercambian fácilmente.
+- Template Method: `BusquedaPrimeroMejor` encapsula el flujo general de la exploración y delega la prioridad en subclases.
+- Adapter: `CuadriculaProblema` y `GrafoProblema` conectan dominios concretos con el contrato de búsqueda.
+- Command: cada opción del menú está representada por un comando concreto.
+
+## Notas académicas
+
+Los estados deben ser inmutables durante la búsqueda y durante la vida útil del resultado. Esto es importante porque se usan como claves en estructuras tipo `HashMap` para reconstruir rutas y recuperar soluciones.
+
+Los problemas implementados deben:
+
+- producir transiciones con costos finitos y no negativos,
+- definir una heurística finita y no negativa para los estados evaluados,
+- tener un espacio de estados alcanzables finito,
+- limitar el número de sucesores por estado para garantizar terminación.
+
+A* encuentra una solución de costo mínimo cuando la heurística es admisible, es decir, cuando no sobreestima el costo mínimo restante. La admisibilidad depende del dominio concreto y no puede validarse genéricamente en tiempo de ejecución.
+
+## Estado del proyecto
+
+Este laboratorio está orientado a la práctica y la visualización de algoritmos de búsqueda con un enfoque didáctico. El objetivo principal es comprender cómo cambian el comportamiento y la calidad de la solución según el algoritmo, la heurística y el dominio del problema.
