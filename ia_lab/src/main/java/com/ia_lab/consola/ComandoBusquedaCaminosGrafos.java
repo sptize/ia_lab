@@ -86,7 +86,7 @@ public class ComandoBusquedaCaminosGrafos implements Comando {
     private Optional<Grafo> escogerGrafo(Consola consola) {
         consola.println();
         consola.println("Ingrese el grafo a resolver (una línea por cada línea del grafo, o vacío para usar el ejemplo):");
-        List<String> lineas = consola.pedirLineas("Adicione detalles del grafo (línea vacía para terminar):");
+        List<String> lineas = consola.pedirLineas("Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar):");
         if (lineas.isEmpty()) {
             lineas = GRAFO_EJEMPLO;
         }
