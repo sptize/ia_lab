@@ -83,7 +83,8 @@ public final class ComandoBusquedaCaminos implements Comando {
     }
 
     private void imprimirSolucion(Consola consola, Cuadricula mapa, ResultadoBusqueda<Posicion> resultado) {
-        consola.println(String.format("Costo total: %.0f | Pasos: %d | Nodos expandidos: %d",
+        consola.println(
+            String.format("Costo total: %.0f | Pasos: %d | Nodos expandidos: %d",
                 resultado.costoTotal(), resultado.acciones().size(), resultado.nodosExpandidos()));
         consola.println(mapa.renderizar(resultado.estados()));
         consola.println("Movimientos: " + String.join(" -> ", resultado.acciones()));
