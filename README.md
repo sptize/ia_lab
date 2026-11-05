@@ -119,31 +119,51 @@ C G 3
 ## Estructura del proyecto
 
 ```text
-com.busquedainformada.ia_lab
-├── IaLab                               punto de entrada y composición del menú
-├── consola/
-│   ├── Comando                         interfaz para cada opción del menú
-│   ├── ComandoBusquedaCaminos          búsqueda en cuadrículas
-│   ├── ComandoBusquedaCaminosGrafos   búsqueda en grafos
-│   ├── ComandoOchoReinas              configuración y ejecución de Hill Climbing
-│   ├── Consola                         fachada de entrada/salida
-│   └── Menu                            despliegue del menú principal
-├── algoritmos/
-│   ├── IProblemaBusqueda              contrato genérico del problema
-│   ├── IAlgoritmoBusqueda             contrato de cada algoritmo
-│   ├── BusquedaPrimeroMejor           ciclo compartido (Template Method)
-│   ├── BusquedaAEstrella              estrategia A*
-│   ├── BusquedaPrimeroMejorVoraz      estrategia Greedy Best-First
-│   └── ResultadoBusqueda              resumen del resultado de una búsqueda
-├── busquedadecaminos/
-│   ├── Cuadricula                     representación del mapa
-│   ├── CuadriculaProblema             adaptación del mapa al problema de búsqueda
-│   ├── Grafo                         estructura de grafo ponderado
-│   └── GrafoProblema                 adaptación del grafo al problema de búsqueda
-└── local/
-    ├── HillClimbing                   búsqueda local con reinicios
-    ├── ProblemaOchoReinas            dominio del problema de las 8 reinas
-    └── TableroOchoReinas             representación del tablero
+ia_lab/
+├── pom.xml
+├── README.md
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── ia_lab/
+│                   ├── IaLab.java
+│                   ├── consola/
+│                   │   ├── Comando.java
+│                   │   ├── ComandoBusquedaCaminos.java
+│                   │   ├── ComandoBusquedaCaminosGrafos.java
+│                   │   ├── ComandoOchoReinas.java
+│                   │   ├── Consola.java
+│                   │   └── Menu.java
+│                   ├── busquedainformadadecaminos/
+│                   │   ├── core/
+│                   │   │   ├── BusquedaAEstrella.java
+│                   │   │   ├── BusquedaPrimeroMejor.java
+│                   │   │   ├── BusquedaPrimeroMejorVoraz.java
+│                   │   │   ├── IAlgoritmoBusqueda.java
+│                   │   │   ├── IProblemaBusqueda.java
+│                   │   │   ├── Nodo.java
+│                   │   │   ├── Paso.java
+│                   │   │   └── ResultadoBusqueda.java
+│                   │   ├── grafos/
+│                   │   │   ├── Grafo.java
+│                   │   │   ├── GrafoProblema.java
+│                   │   │   └── ValidadorHeuristica.java
+│                   │   └── laberintos/
+│                   │       ├── Cuadricula.java
+│                   │       ├── CuadriculaProblema.java
+│                   │       ├── Direccion.java
+│                   │       └── Posicion.java
+│                   ├── busquedainformadalocal/
+│                   │   ├── core/
+│                   │   │   ├── HillClimbing.java
+│                   │   │   ├── IProblemaBusquedaLocal.java
+│                   │   │   └── ResultadoBusquedaLocal.java
+│                   │   └── ochoreinas/
+│                   │       ├── ProblemaOchoReinas.java
+│                   │       └── TableroOchoReinas.java
+│                   └── busquedaadversarial/
+│                       └── (directorio preparado para extensiones futuras)
 ```
 
 ## Patrones de diseño
