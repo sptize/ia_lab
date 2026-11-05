@@ -46,21 +46,24 @@ Compila y ejecuta:
 
 ```bash
 mvn package
-java -cp target/classes com.busquedainformada.ia_lab.IaLab
+java -cp target/classes com.ia_lab.IaLab
 ```
 
 También puedes compilar directamente con `javac` si lo prefieres:
 
 ```bash
+mkdir -p out
 javac -d out $(find src/main/java -name "*.java")
-java -cp out com.busquedainformada.ia_lab.IaLab
+java -cp out com.ia_lab.IaLab
 ```
 
 En PowerShell (Windows):
 
 ```powershell
-javac -d out (Get-ChildItem -Recurse src\main\java -Filter *.java).FullName
-java -cp out com.busquedainformada.ia_lab.IaLab
+New-Item -ItemType Directory -Force out | Out-Null
+$archivos = Get-ChildItem -Recurse src\main\java -Filter *.java | ForEach-Object { $_.FullName }
+javac -d out $archivos
+java -cp out com.ia_lab.IaLab
 ```
 
 ## Formato de entrada para mapas

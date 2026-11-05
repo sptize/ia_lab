@@ -109,6 +109,6 @@ public class ComandoBusquedaCaminosGrafos implements Comando {
         consola.println(
             String.format("Costo total: %.0f | Pasos: %d | Nodos expandidos: %d",
                 resultado.costoTotal(), resultado.acciones().size(), resultado.nodosExpandidos()));
-        consola.println("Movimientos: " + String.join(" -> ", resultado.acciones()));
+        consola.println("Camino: " + String.join(" -> ", resultado.estados()));
     }
 }

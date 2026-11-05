@@ -39,7 +39,7 @@ public class GrafoTest {
                 System.out.println("Costo total: " + r.costoTotal());
                 System.out.println("Pasos: " + r.acciones().size());
                 System.out.println("Nodos expandidos: " + r.nodosExpandidos());
-                System.out.println("Movimientos: " + String.join(" , ", r.acciones()));
+                System.out.println("Camino: " + String.join(" -> ", r.estados()));
                 System.out.println();
             }, () -> {
                 System.out.println("No se encontró solución para el algoritmo: " + algoritmo.getClass().getSimpleName());
