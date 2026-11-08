@@ -7,6 +7,7 @@ import com.iaLab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
 import com.iaLab.consola.Comando;
 import com.iaLab.consola.ComandoBusquedaCaminos;
 import com.iaLab.consola.ComandoBusquedaCaminosGrafos;
+import com.iaLab.consola.ComandoHillClimbingGrafos;
 import com.iaLab.consola.ComandoMinimaxArbol;
 import com.iaLab.consola.ComandoMinimaxTresEnRaya;
 import com.iaLab.consola.ComandoOchoReinas;
@@ -34,6 +35,7 @@ public final class IaLab {
                 new ComandoBusquedaCaminosGrafos("A* - grafos", List.of(new BusquedaAEstrella())),
                 new ComandoBusquedaCaminosGrafos("Greedy Best-First - grafos", List.of(new BusquedaPrimeroMejorVoraz())),
                 new ComandoBusquedaCaminosGrafos("Comparar A* vs Greedy en un grafo", List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz())),
+                new ComandoHillClimbingGrafos(),
                 //Búsqueda adversarial
                 new ComandoMinimaxArbol(),
                 new ComandoMinimaxTresEnRaya()

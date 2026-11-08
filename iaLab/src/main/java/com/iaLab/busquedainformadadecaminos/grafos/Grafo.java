@@ -129,10 +129,10 @@ public final class Grafo {
      * Con {@code false}, el comportamiento es el de {@link #parsear(List)}.</p>
      *
      * <p>Usar {@code true} solo con algoritmos que ignoran el costo de las aristas
-     * (Greedy Best-First); A* necesita costos reales.</p>
+     * (como Greedy Best-First o Hill Climbing); A* necesita costos reales.</p>
      *
      * @param lineas líneas de entrada, con exactamente un inicio y una meta
-     * @param costoOpcional {@code true} para aceptar aristas sin costo
+     * @param costoOpcional {@code true} para aceptar aristas sin costo cuando el algoritmo no usa esos costos
      * @return grafo analizado e inmutable
      * @throws IllegalArgumentException si la lista es nula, el grafo no contiene nodos,
      *         contiene valores inválidos o no tiene exactamente un inicio y una meta

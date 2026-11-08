@@ -35,33 +35,64 @@ public final class HillClimbing<S> {
         if (reiniciosMaximos < 0) {
             throw new IllegalArgumentException("los reinicios máximos no puede ser negativos");
         }
+        Objects.requireNonNull(problema, "problema");
         int pasosTotales = 0;
         S mejor = null;
         double mejorCosto = Double.POSITIVE_INFINITY;
+        List<S> mejorRecorrido = List.of();
 
         for (int reinicio = 0; reinicio <= reiniciosMaximos; reinicio++) {
             S actual = problema.estadoAleatorio(aleatorio);
-            double costoActual = problema.costo(actual);
+            Intento<S> intento = descender(problema, actual);
+            pasosTotales += intento.pasos();
 
-            while (!problema.esSolucion(actual)) {
-                S proximo = mejorVecino(problema, actual, costoActual);
-                if (proximo == null) {
-                    break; // óptimo local
-                }
-                actual = proximo;
-                costoActual = problema.costo(actual);
-                pasosTotales++;
+            if (intento.costo() < mejorCosto) {
+                mejor = intento.estado();
+                mejorCosto = intento.costo();
+                mejorRecorrido = intento.recorrido();
             }
-
-            if (costoActual < mejorCosto) {
-                mejor = actual;
-                mejorCosto = costoActual;
-            }
-            if (problema.esSolucion(actual)) {
-                return new ResultadoBusquedaLocal<>(actual, costoActual, true, pasosTotales, reinicio);
+            if (intento.solucion()) {
+                return new ResultadoBusquedaLocal<>(
+                        intento.estado(), intento.costo(), true, pasosTotales, reinicio, intento.recorrido());
             }
         }
-        return new ResultadoBusquedaLocal<>(mejor, mejorCosto, false, pasosTotales, reiniciosMaximos);
+        return new ResultadoBusquedaLocal<>(
+                mejor, mejorCosto, false, pasosTotales, reiniciosMaximos, mejorRecorrido);
+    }
+
+    /**
+     * Busca desde un estado conocido, sin reinicios aleatorios.
+     *
+     * @param problema problema de búsqueda local que se va a resolver
+     * @param estadoInicial estado desde el que comienza la búsqueda
+     * @return resultado con la solución o el óptimo local alcanzado
+     */
+    public ResultadoBusquedaLocal<S> solucionarDesde(IProblemaBusquedaLocal<S> problema, S estadoInicial) {
+        Objects.requireNonNull(problema, "problema");
+        Objects.requireNonNull(estadoInicial, "estadoInicial");
+        Intento<S> intento = descender(problema, estadoInicial);
+        return new ResultadoBusquedaLocal<>(
+                intento.estado(), intento.costo(), intento.solucion(), intento.pasos(), 0, intento.recorrido());
+    }
+
+    private Intento<S> descender(IProblemaBusquedaLocal<S> problema, S estadoInicial) {
+        S actual = estadoInicial;
+        double costoActual = problema.costo(actual);
+        int pasos = 0;
+        List<S> recorrido = new ArrayList<>();
+        recorrido.add(actual);
+
+        while (!problema.esSolucion(actual)) {
+            S proximo = mejorVecino(problema, actual, costoActual);
+            if (proximo == null) {
+                break;
+            }
+            actual = proximo;
+            costoActual = problema.costo(actual);
+            recorrido.add(actual);
+            pasos++;
+        }
+        return new Intento<>(actual, costoActual, problema.esSolucion(actual), pasos, List.copyOf(recorrido));
     }
 
     /**
@@ -86,5 +117,8 @@ public final class HillClimbing<S> {
             }
         }
         return candidatos.isEmpty() ? null : candidatos.get(aleatorio.nextInt(candidatos.size()));
+    }
+
+    private record Intento<S>(S estado, double costo, boolean solucion, int pasos, List<S> recorrido) {
     }
 }

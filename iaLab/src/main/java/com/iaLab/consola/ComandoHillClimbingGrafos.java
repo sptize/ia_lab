@@ -1,0 +1,78 @@
+package com.iaLab.consola;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import com.iaLab.busquedainformadadecaminos.grafos.Grafo;
+import com.iaLab.busquedainformadalocal.core.HillClimbing;
+import com.iaLab.busquedainformadalocal.core.ResultadoBusquedaLocal;
+import com.iaLab.busquedainformadalocal.grafos.ProblemaGrafoLocal;
+
+/** Ejecuta Hill Climbing sobre un grafo desde el nodo de inicio declarado. */
+public final class ComandoHillClimbingGrafos implements Comando {
+
+    private static final List<String> GRAFO_EJEMPLO = List.of(
+            "# ejemplo de grafo",
+            "inicio: S",
+            "meta: G",
+            "nodos:",
+            "S 6",
+            "A 2",
+            "B 4",
+            "C 3",
+            "G 0",
+            "aristas:",
+            "S A 4",
+            "A G 20",
+            "S B 2",
+            "B C 2",
+            "C G 3");
+
+    @Override
+    public String titulo() {
+        return "Hill Climbing - grafos";
+    }
+
+    @Override
+    public void execute(Consola consola) {
+        Optional<Grafo> grafo = escogerGrafo(consola);
+        if (grafo.isEmpty()) {
+            return;
+        }
+
+        Grafo instancia = grafo.get();
+        ProblemaGrafoLocal problema = new ProblemaGrafoLocal(instancia);
+        HillClimbing<String> hillClimbing = new HillClimbing<>(new Random());
+        ResultadoBusquedaLocal<String> resultado =
+                hillClimbing.solucionarDesde(problema, instancia.getInicio());
+
+        consola.println();
+        consola.println("Recorrido: " + String.join(" -> ", resultado.recorrido()));
+        if (resultado.solucion()) {
+            consola.println("Meta alcanzada.");
+        } else {
+            consola.println("Óptimo local: no hay un vecino con menor heurística.");
+        }
+        consola.println("Pasos: " + resultado.pasos()
+                + " | Nodo final: " + resultado.estado()
+                + " | Heurística final: " + resultado.costo());
+    }
+
+    private Optional<Grafo> escogerGrafo(Consola consola) {
+        consola.println();
+        consola.println("Ingrese el grafo (una línea por cada línea; vacío para usar el ejemplo):");
+        consola.println("Hill Climbing usa la heurística y no necesita costos en las aristas.");
+        List<String> lineas = consola.pedirLineas(
+                "Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar):");
+        if (lineas.isEmpty()) {
+            lineas = GRAFO_EJEMPLO;
+        }
+        try {
+            return Optional.of(Grafo.parsear(lineas, true));
+        } catch (IllegalArgumentException e) {
+            consola.println("Error al parsear el grafo: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+}
