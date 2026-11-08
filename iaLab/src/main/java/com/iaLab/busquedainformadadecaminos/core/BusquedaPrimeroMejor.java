@@ -81,11 +81,11 @@ abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
                 if (!Double.isFinite(costoCandidato)) {
                     throw new IllegalArgumentException("el costo acumulado del camino debe ser finito");
                 }
-                if (encolar(mejoresCostos.get(paso.estado()), costoCandidato)) {
-                    mejoresCostos.put(paso.estado(), costoCandidato);
+                if (encolar(mejoresCostos.get(paso.estado()), costoCandidato)) {                   
                     double heuristica = validarHeuristica(problema.heuristica(paso.estado()));
                     Nodo<S> hijo = actual.hijo(paso, heuristica);
                     frontera.add(new QueueEntry<>(hijo, calcularPrioridad(hijo.costoCamino(), hijo.heuristica()), secuencia++));
+                    mejoresCostos.put(paso.estado(), costoCandidato);
                 }
             }
         }
