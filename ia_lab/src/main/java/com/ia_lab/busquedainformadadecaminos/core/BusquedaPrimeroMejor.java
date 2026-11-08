@@ -22,7 +22,7 @@ import java.util.PriorityQueue;
  * reconstruir el camino; por eso sus datos de igualdad y hash deben permanecer
  * estables mientras se ejecuta la búsqueda.</p>
  */
-public abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
+abstract class BusquedaPrimeroMejor implements IAlgoritmoBusqueda {
 
     /**
      * Calcula la prioridad de expansión del estado.

@@ -126,6 +126,7 @@ public final class Grafo {
 
     private static final class Parser {
         private boolean dirigido = true; // por defecto el grafo es dirigido
+        private boolean dirigidoDeclarado = false; // indica si la directiva dirigido ya apareció
         private Seccion seccionActual = Seccion.NINGUNA;
         private int numeroLineaActual;
         private String inicio;
@@ -180,7 +181,13 @@ public final class Grafo {
                     validarSeccionSinContenido("aristas", valor);
                     seccionActual = Seccion.ARISTAS;
                 }
-                case "dirigido" -> dirigido = aBooleano(valor);
+                case "dirigido" -> {
+                    if (dirigidoDeclarado) {
+                        throw new IllegalArgumentException("la directiva dirigido no se puede repetir");
+                    }
+                    dirigido = aBooleano(valor);
+                    dirigidoDeclarado = true;
+                }
                 default -> throw new IllegalArgumentException("directiva desconocida: " + clave);
             }
         }

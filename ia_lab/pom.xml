@@ -27,7 +27,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
-        <exec.mainClass>com.busquedainformada.ia_lab.IaLab</exec.mainClass>
+        <exec.mainClass>com.ia_lab.IaLab</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>

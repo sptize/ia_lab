@@ -13,16 +13,17 @@ import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
 import com.ia_lab.busquedainformadadecaminos.core.IProblemaBusqueda;
 import com.ia_lab.busquedainformadadecaminos.core.Paso;
 import com.ia_lab.busquedainformadadecaminos.core.ResultadoBusqueda;
-import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejor;
 
 class BusquedaPrimeroMejorTest {
 
     @Test
     void claseBaseYHooksNoSonParteDeLaApiPublica() throws ReflectiveOperationException {
-        assertFalse(Modifier.isPublic(BusquedaPrimeroMejor.class.getModifiers()));
-        int prioridadModifiers = BusquedaPrimeroMejor.class
+        // Se carga por nombre: la clase base no es pública y no puede importarse desde este paquete.
+        Class<?> base = Class.forName("com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejor");
+        assertFalse(Modifier.isPublic(base.getModifiers()));
+        int prioridadModifiers = base
                 .getDeclaredMethod("prioridad", double.class, double.class).getModifiers();
-        int encolarModifiers = BusquedaPrimeroMejor.class
+        int encolarModifiers = base
                 .getDeclaredMethod("encolar", Double.class, double.class).getModifiers();
         assertFalse(Modifier.isPublic(prioridadModifiers) || Modifier.isProtected(prioridadModifiers));
         assertFalse(Modifier.isPublic(encolarModifiers) || Modifier.isProtected(encolarModifiers));

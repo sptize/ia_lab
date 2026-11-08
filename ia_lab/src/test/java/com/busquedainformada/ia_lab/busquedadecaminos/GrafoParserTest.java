@@ -86,6 +86,29 @@ class GrafoParserTest {
     }
 
     @Test
+    void rechazaDirectivaDirigidoRepetida() {
+        assertInvalid(List.of("inicio: S", "meta: G", "dirigido: true", "dirigido: false",
+                "nodos:", "S 0", "G 0"), "dirigido no se puede repetir");
+        assertInvalid(List.of("inicio: S", "meta: G", "dirigido: false", "dirigido: false",
+                "nodos:", "S 0", "G 0"), "dirigido no se puede repetir");
+    }
+
+    @Test
+    void dirigidoEsTrueSiLaDirectivaNoAparece() {
+        Grafo grafo = Grafo.parsear(List.of(
+                "inicio: S",
+                "meta: G",
+                "nodos:",
+                "S 0",
+                "G 0",
+                "aristas:",
+                "S G 1"));
+
+        assertEquals(1, grafo.aristasDesde("S").size());
+        assertEquals(0, grafo.aristasDesde("G").size());
+    }
+
+    @Test
     void rechazaTextoEnLaLineaDeUnaDirectivaDeSeccion() {
         assertInvalid(List.of("inicio: S", "meta: G", "nodos: S 0", "G 0"),
                 "no acepta texto en la misma línea");

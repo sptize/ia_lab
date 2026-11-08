@@ -7,6 +7,8 @@ import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
 import com.ia_lab.consola.Comando;
 import com.ia_lab.consola.ComandoBusquedaCaminos;
 import com.ia_lab.consola.ComandoBusquedaCaminosGrafos;
+import com.ia_lab.consola.ComandoMinimaxArbol;
+import com.ia_lab.consola.ComandoMinimaxTresEnRaya;
 import com.ia_lab.consola.ComandoOchoReinas;
 import com.ia_lab.consola.Consola;
 import com.ia_lab.consola.Menu;
@@ -31,11 +33,13 @@ public final class IaLab {
                 //Problemas que usan grafos a modo general
                 new ComandoBusquedaCaminosGrafos("A* - grafos", List.of(new BusquedaAEstrella())),
                 new ComandoBusquedaCaminosGrafos("Greedy Best-First - grafos", List.of(new BusquedaPrimeroMejorVoraz())),
-                new ComandoBusquedaCaminosGrafos("Comparar A* vs Greedy en un grafo", List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz()))
+                new ComandoBusquedaCaminosGrafos("Comparar A* vs Greedy en un grafo", List.of(new BusquedaAEstrella(), new BusquedaPrimeroMejorVoraz())),
+                //Búsqueda adversarial
+                new ComandoMinimaxArbol(),
+                new ComandoMinimaxTresEnRaya()
 
             
             );
         new Menu(consola, comandos).run();
     }
-    //TODO adicionar minimax
 }
