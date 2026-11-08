@@ -25,12 +25,15 @@ public final class Grafo {
     private final String meta;
     private final Map<String, List<Arista>> adyacencias;
     private final Map<String, Double> heuristicas;
+    private final boolean costosOmitidos;
 
-    private Grafo(String inicio, String meta, Map<String, List<Arista>> adyacencias, Map<String, Double> heuristicas) {
+    private Grafo(String inicio, String meta, Map<String, List<Arista>> adyacencias,
+                  Map<String, Double> heuristicas, boolean costosOmitidos) {
         this.inicio = inicio;
         this.meta = meta;
         this.adyacencias = adyacencias;
         this.heuristicas = heuristicas;
+        this.costosOmitidos = costosOmitidos;
     }
 
     /**
@@ -73,6 +76,17 @@ public final class Grafo {
     }
 
     /**
+     * Indica si alguna arista se escribió sin costo y recibió el costo por defecto (0).
+     * Solo puede ser {@code true} si el grafo se analizó con costo opcional; en ese caso
+     * los costos del grafo no son fiables y no deben usarse para calcular costos de caminos.
+     *
+     * @return {@code true} si alguna arista se escribió sin costo
+     */
+    public boolean tieneCostosOmitidos() {
+        return this.costosOmitidos;
+    }
+
+    /**
      * Devuelve los nombres de todos los nodos del grafo.
      *
      * @return conjunto inmutable de nodos
@@ -93,16 +107,41 @@ public final class Grafo {
      * comprobarla explícitamente en pruebas o experimentos, se puede invocar
      * {@link ValidadorHeuristica#validar(Grafo)}.</p>
      *
+     * <p>Cada arista debe indicar su costo ({@code origen destino costo}). Para los algoritmos
+     * que no usan el costo, como Greedy Best-First, existe
+     * {@link #parsear(List, boolean)}.</p>
+     *
      * @param lineas líneas de entrada, con exactamente un inicio y una meta
      * @return grafo analizado e inmutable
      * @throws IllegalArgumentException si la lista es nula, el grafo no contiene nodos,
      *         contiene valores inválidos o no tiene exactamente un inicio y una meta
      */
     public static Grafo parsear(List<String> lineas) {
+        return parsear(lineas, false);
+    }
+
+    /**
+     * Construye un grafo a partir de sus filas de texto, permitiendo opcionalmente aristas sin costo.
+     *
+     * <p>Con {@code costoOpcional} en {@code true}, una arista puede escribirse como
+     * {@code origen destino}: recibe el costo por defecto 0 y el grafo queda marcado con
+     * {@link #tieneCostosOmitidos()}. Las aristas que sí traen costo se validan igual que siempre.
+     * Con {@code false}, el comportamiento es el de {@link #parsear(List)}.</p>
+     *
+     * <p>Usar {@code true} solo con algoritmos que ignoran el costo de las aristas
+     * (Greedy Best-First); A* necesita costos reales.</p>
+     *
+     * @param lineas líneas de entrada, con exactamente un inicio y una meta
+     * @param costoOpcional {@code true} para aceptar aristas sin costo
+     * @return grafo analizado e inmutable
+     * @throws IllegalArgumentException si la lista es nula, el grafo no contiene nodos,
+     *         contiene valores inválidos o no tiene exactamente un inicio y una meta
+     */
+    public static Grafo parsear(List<String> lineas, boolean costoOpcional) {
         if (lineas == null) {
             throw new IllegalArgumentException("La lista de líneas no puede ser nula");
         }
-        Parser parser = new Parser();
+        Parser parser = new Parser(costoOpcional);
         for (int i = 0; i < lineas.size(); i++) {
             int numeroLinea = i + 1;
             try {
@@ -125,6 +164,9 @@ public final class Grafo {
     record AristaSuelta(String origen, String destino, double costo, int numeroLinea) {}
 
     private static final class Parser {
+        private static final double COSTO_OMITIDO = 0.0; // costo de una arista escrita sin costo
+        private final boolean costoOpcional;
+        private boolean costosOmitidos;
         private boolean dirigido = true; // por defecto el grafo es dirigido
         private boolean dirigidoDeclarado = false; // indica si la directiva dirigido ya apareció
         private Seccion seccionActual = Seccion.NINGUNA;
@@ -133,6 +175,10 @@ public final class Grafo {
         private String meta;
         private final Map<String, Double> heuristicas = new LinkedHashMap<>();
         private final List<AristaSuelta> aristasSueltas = new ArrayList<>();
+
+        Parser(boolean costoOpcional) {
+            this.costoOpcional = costoOpcional;
+        }
 
         void actualizarNumeroLinea(int numeroLinea) {
             numeroLineaActual = numeroLinea;
@@ -232,12 +278,19 @@ public final class Grafo {
 
         private void arista(String linea) {
             String[] partes = linea.split("\\s+");
-            if (partes.length != 3) {
-                throw new IllegalArgumentException("se esperaba una arista con costo, por ejemplo 'A B 6'");
-            }
-            double costo = numero(partes[2], "el costo de la arista");
-            if (costo < 0) {
-                throw new IllegalArgumentException("el costo de la arista debe ser un valor no negativo");
+            double costo;
+            if (partes.length == 3) {
+                costo = numero(partes[2], "el costo de la arista");
+                if (costo < 0) {
+                    throw new IllegalArgumentException("el costo de la arista debe ser un valor no negativo");
+                }
+            } else if (partes.length == 2 && costoOpcional) {
+                costo = COSTO_OMITIDO;
+                costosOmitidos = true;
+            } else {
+                throw new IllegalArgumentException(costoOpcional
+                        ? "se esperaba una arista con costo opcional, por ejemplo 'A B' o 'A B 6'"
+                        : "se esperaba una arista con costo, por ejemplo 'A B 6'");
             }
             aristasSueltas.add(new AristaSuelta(partes[0], partes[1], costo, numeroLineaActual));
         }
@@ -278,7 +331,7 @@ public final class Grafo {
            
            
            
-            return new Grafo(inicio, meta, Collections.unmodifiableMap(adyacencias), Collections.unmodifiableMap(heuristicas));
+            return new Grafo(inicio, meta, Collections.unmodifiableMap(adyacencias), Collections.unmodifiableMap(heuristicas), costosOmitidos);
         }
     }
 

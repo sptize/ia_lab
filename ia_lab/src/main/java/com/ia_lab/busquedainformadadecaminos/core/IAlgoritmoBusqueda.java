@@ -13,6 +13,16 @@ public interface IAlgoritmoBusqueda {
     String nombre();
 
     /**
+     * Indica si el algoritmo necesita costos reales en las transiciones. A* los necesita para
+     * ordenar y para garantizar el camino óptimo; Greedy Best-First solo usa la heurística.
+     *
+     * @return {@code true} si el algoritmo requiere costos reales (por defecto)
+     */
+    default boolean requiereCostos() {
+        return true;
+    }
+
+    /**
      * Busca una solución para el problema indicado.
      *
      * @param <S> tipo de estado del problema

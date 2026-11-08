@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.ia_lab.busquedainformadadecaminos.core.BusquedaAEstrella;
+import com.ia_lab.busquedainformadadecaminos.core.BusquedaPrimeroMejorVoraz;
 import com.ia_lab.busquedainformadadecaminos.grafos.Grafo;
 import com.ia_lab.busquedainformadadecaminos.grafos.GrafoProblema;
 
@@ -147,6 +148,69 @@ class GrafoParserTest {
                         "G 0")));
 
         assertTrue(error.getMessage().contains("línea 4"));
+    }
+
+    @Test
+    void porDefectoRechazaUnaAristaSinCosto() {
+        assertInvalid(List.of("inicio: S", "meta: G", "nodos:", "S 0", "G 0", "aristas:", "S G"),
+                "se esperaba una arista con costo");
+    }
+
+    @Test
+    void conCostoOpcionalLasAristasSinCostoTienenCostoCeroYSeMarcan() {
+        Grafo grafo = Grafo.parsear(List.of(
+                "inicio: S", "meta: G", "nodos:", "S 0", "A 0", "G 0",
+                "aristas:", "S G", "S A 5"), true);
+
+        assertTrue(grafo.tieneCostosOmitidos());
+        assertEquals(0.0, grafo.aristasDesde("S").get(0).costo());
+        assertEquals(5.0, grafo.aristasDesde("S").get(1).costo());
+    }
+
+    @Test
+    void sinAristasOmitidasElGrafoNoSeMarca() {
+        List<String> lineas = List.of(
+                "inicio: S", "meta: G", "nodos:", "S 0", "G 0", "aristas:", "S G 3");
+
+        assertFalse(Grafo.parsear(lineas).tieneCostosOmitidos());
+        assertFalse(Grafo.parsear(lineas, true).tieneCostosOmitidos());
+    }
+
+    @Test
+    void conCostoOpcionalSigueRechazandoAristasInvalidas() {
+        List<String> base = List.of("inicio: S", "meta: G", "nodos:", "S 0", "G 0", "aristas:");
+        for (String arista : List.of("S", "S G 1 2", "S G -1", "S G abc", "S G NaN")) {
+            List<String> lineas = new java.util.ArrayList<>(base);
+            lineas.add(arista);
+            assertThrows(IllegalArgumentException.class, () -> Grafo.parsear(lineas, true), arista);
+        }
+        List<String> sinNodoDestino = new java.util.ArrayList<>(base);
+        sinNodoDestino.add("S X");
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> Grafo.parsear(sinNodoDestino, true));
+        assertTrue(error.getMessage().contains("línea 7"), error.getMessage());
+    }
+
+    @Test
+    void greedyEncuentraElMismoCaminoConOSinCostosEnLasAristas() {
+        Grafo conCostos = Grafo.parsear(List.of(
+                "inicio: S", "meta: G", "nodos:", "S 6", "A 2", "B 4", "G 0",
+                "aristas:", "S A 4", "A G 20", "S B 2", "B G 3"));
+        Grafo sinCostos = Grafo.parsear(List.of(
+                "inicio: S", "meta: G", "nodos:", "S 6", "A 2", "B 4", "G 0",
+                "aristas:", "S A", "A G", "S B", "B G"), true);
+
+        var conocidos = new BusquedaPrimeroMejorVoraz().solucionar(new GrafoProblema(conCostos)).orElseThrow();
+        var omitidos = new BusquedaPrimeroMejorVoraz().solucionar(new GrafoProblema(sinCostos)).orElseThrow();
+
+        assertEquals(conocidos.estados(), omitidos.estados());
+        assertEquals(conocidos.nodosExpandidos(), omitidos.nodosExpandidos());
+    }
+
+    @Test
+    void soloGreedyPrescindeDeLosCostos() {
+        assertFalse(new BusquedaPrimeroMejorVoraz().requiereCostos());
+        assertTrue(new BusquedaAEstrella().requiereCostos());
     }
 
     private static void assertInvalid(List<String> lineas, String parteDelMensaje) {

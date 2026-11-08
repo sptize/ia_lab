@@ -86,12 +86,16 @@ public class ComandoBusquedaCaminosGrafos implements Comando {
     private Optional<Grafo> escogerGrafo(Consola consola) {
         consola.println();
         consola.println("Ingrese el grafo a resolver (una línea por cada línea del grafo, o vacío para usar el ejemplo):");
+        boolean costoOpcional = algoritmos.stream().noneMatch(IAlgoritmoBusqueda::requiereCostos);
+        if (costoOpcional) {
+            consola.println("Para este algoritmo el costo de las aristas es opcional: puede escribir 'A B' o 'A B 6'.");
+        }
         List<String> lineas = consola.pedirLineas("Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar):");
         if (lineas.isEmpty()) {
             lineas = GRAFO_EJEMPLO;
         }
         try {
-            return Optional.of(Grafo.parsear(lineas));
+            return Optional.of(Grafo.parsear(lineas, costoOpcional));
         } catch (IllegalArgumentException e) {
             consola.println("Error al parsear el grafo: " + e.getMessage());
             return Optional.empty();
@@ -106,9 +110,12 @@ public class ComandoBusquedaCaminosGrafos implements Comando {
      * @param resultado solución encontrada por un algoritmo
      */
     private void imprimirSolucion(Consola consola, Grafo grafo, ResultadoBusqueda<String> resultado) {
+        String costo = grafo.tieneCostosOmitidos()
+                ? "no disponible (hay aristas sin costo)"
+                : String.format("%.0f", resultado.costoTotal());
         consola.println(
-            String.format("Costo total: %.0f | Pasos: %d | Nodos expandidos: %d",
-                resultado.costoTotal(), resultado.acciones().size(), resultado.nodosExpandidos()));
+            String.format("Costo total: %s | Pasos: %d | Nodos expandidos: %d",
+                costo, resultado.acciones().size(), resultado.nodosExpandidos()));
         consola.println("Camino: " + String.join(" -> ", resultado.estados()));
     }
 }

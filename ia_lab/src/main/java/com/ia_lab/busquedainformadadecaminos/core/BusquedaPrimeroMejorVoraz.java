@@ -15,6 +15,16 @@ public final class BusquedaPrimeroMejorVoraz extends BusquedaPrimeroMejor {
     }
 
     /**
+     * Greedy ordena solo por heurística, por lo que no necesita costos reales.
+     *
+     * @return {@code false}
+     */
+    @Override
+    public boolean requiereCostos() {
+        return false;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

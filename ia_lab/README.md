@@ -117,7 +117,7 @@ C G 3
 
 - Las directivas `inicio:`, `meta:` y `nodos:` / `aristas:` definen la estructura del grafo.
 - Cada nodo tiene un nombre y una heurística asociada.
-- Cada arista se expresa como `origen destino costo`.
+- Cada arista se expresa como `origen destino costo`. En la opción 6 (solo Greedy Best-First) el costo es opcional: se puede escribir `origen destino`, porque Greedy solo usa la heurística. En ese caso el programa asigna costo 0 internamente y no muestra costo total. A* (opciones 5 y 7) sigue exigiendo el costo.
 - La búsqueda admite grafos ponderados y la heurística depende del problema concreto.
 - El análisis del grafo no comprueba automáticamente la admisibilidad de la heurística. Para hacerlo explícitamente en pruebas o experimentos, se puede llamar a `ValidadorHeuristica.validar(grafo)`.
 
