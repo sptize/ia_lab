@@ -19,19 +19,17 @@ public final class ComandoHillClimbingGrafos implements Comando {
             "nodos:",
             "S 6",
             "A 2",
-            "B 4",
-            "C 3",
+            "B 4",          
             "G 0",
             "aristas:",
-            "S A 4",
-            "A G 20",
-            "S B 2",
-            "B C 2",
-            "C G 3");
+            "S A",  
+            "S B",  
+            "A S",
+            "B G");
 
     @Override
     public String titulo() {
-        return "Hill Climbing - grafos (sin reinicios; desde el nodo inicial)";
+        return "Hill Climbing - grafos (sin reinicios; búsqueda de caminos)";
     }
 
     @Override
