@@ -63,8 +63,8 @@ public final class ComandoHillClimbingGrafos implements Comando {
         consola.println();
         consola.println("Ingrese el grafo (una línea por cada línea; vacío para usar el ejemplo):");
         consola.println("Hill Climbing usa la heurística y no necesita costos en las aristas.");
-        List<String> lineas = consola.pedirLineas(
-                "Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar):");
+        List<String> lineas = consola.pedirLineasConVolver(
+                "Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar; escriba 'volver' para cancelar):");
         if (lineas.isEmpty()) {
             lineas = GRAFO_EJEMPLO;
         }

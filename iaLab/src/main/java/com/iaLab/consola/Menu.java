@@ -31,7 +31,11 @@ public final class Menu {
                     consola.println("¡Hasta luego!");
                     return;
                 }
-                comandos.get(choice - 1).execute(consola);
+                try {
+                    comandos.get(choice - 1).execute(consola);
+                } catch (Consola.VolverAlMenuException e) {
+                    consola.println("Volviendo al menú principal.");
+                }
             }
         } catch (Consola.InputClosedException e) {
             consola.println();

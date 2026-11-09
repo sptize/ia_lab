@@ -31,6 +31,8 @@ El programa presenta estas opciones:
 | 10 | Minimax vs alfa-beta - tres en raya | Ejecuta ambos algoritmos sobre un tablero (o el vacío) y compara los nodos visitados. |
 | 0 | Salir | Cierra el programa. |
 
+En los submenús, selecciona `0) Volver al menú principal` cuando esté disponible. En las preguntas de texto o al ingresar mapas y grafos, escribe `volver` para cancelar y regresar al menú principal. En la opción de 8 reinas, `0` sigue significando cero reinicios; para regresar desde esa pregunta escribe `volver`.
+
 ## Requisitos
 
 - Java 25

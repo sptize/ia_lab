@@ -38,7 +38,12 @@ public final class ComandoMinimaxArbol implements Comando {
         for (int i = 0; i < casos.size(); i++) {
             consola.println((i + 1) + ". " + casos.get(i).nombre());
         }
-        int opcion = consola.pedirOpcionDeMapa("Elige un árbol (1 a " + casos.size() + "): ", 1, casos.size());
+        consola.println("0. Volver al menú principal");
+        int opcion = consola.pedirOpcionDeMapaConVolver(
+                "Elige un árbol (1 a " + casos.size() + "): ", 0, casos.size());
+        if (opcion == 0) {
+            return;
+        }
         Arboles.Caso caso = casos.get(opcion - 1);
         NodoArbol raiz = caso.raiz();
 

@@ -27,7 +27,8 @@ public final class ComandoMinimaxTresEnRaya implements Comando {
         consola.println();
         consola.println("Tablero de 9 celdas: X (MAX, empieza), O (MIN) y '.' o '-' para vacío; '/' separa filas.");
         consola.println("Ejemplo: XO./.../...");
-        String texto = consola.preguntar("Tablero (vacío para usar el tablero vacío): ");
+        String texto = consola.preguntarConVolver(
+                "Tablero (vacío para usar el tablero vacío; escribe 'volver' para regresar): ");
 
         EstadoTresEnRaya estado;
         if (texto.isEmpty()) {

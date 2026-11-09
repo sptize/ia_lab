@@ -67,10 +67,16 @@ public final class ComandoBusquedaCaminos implements Comando {
     }
 
     private Optional<Cuadricula> escogerMapa(Consola consola) {
-        int opcion = consola.pedirOpcionDeMapa("Mapa:\n 1) usar ejemplo\n 2) insertar mapa\nSeleccione una opción:  ", 1, 2);
+        int opcion = consola.pedirOpcionDeMapaConVolver(
+                "Mapa:\n 1) usar ejemplo\n 2) insertar mapa\n 0) volver\nSeleccione una opción: ",
+                0, 2);
+        if (opcion == 0) {
+            throw new Consola.VolverAlMenuException();
+        }
         List<String> lineas = opcion == 1
                 ? MAPA_EJEMPLO
-                : consola.pedirLineas("Escribe el mapa, una fila por línea (línea vacía para terminar):");
+                : consola.pedirLineasConVolver(
+                        "Escribe el mapa, una fila por línea (línea vacía para terminar; escribe 'volver' para cancelar):");
         try {
             Cuadricula mapa = Cuadricula.parse(lineas);
             if (opcion == 1) {

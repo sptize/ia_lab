@@ -28,8 +28,9 @@ public final class ComandoOchoReinas implements Comando {
     public void execute(Consola consola) {
         consola.println();
         consola.println("Sin reinicios, Hill Climbing suele quedarse atascado en un óptimo local.");
-        int reinicios = consola.pedirOpcionDeMapa(
-                "Reinicios aleatorios permitidos (0 a " + MAX_REINICIOS + "): ", 0, MAX_REINICIOS);
+        int reinicios = consola.pedirOpcionDeMapaConVolver(
+                "Reinicios aleatorios permitidos (0 a " + MAX_REINICIOS + "; escribe 'volver' para regresar): ",
+                0, MAX_REINICIOS);
 
         HillClimbing<TableroOchoReinas> hillClimbing = new HillClimbing<>(new Random());
         ResultadoBusquedaLocal<TableroOchoReinas> resultado = hillClimbing.solucionar(new ProblemaOchoReinas(), reinicios);

@@ -90,7 +90,8 @@ public class ComandoBusquedaCaminosGrafos implements Comando {
         if (costoOpcional) {
             consola.println("Para este algoritmo el costo de las aristas es opcional: puede escribir 'A B' o 'A B 6'.");
         }
-        List<String> lineas = consola.pedirLineas("Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar):");
+        List<String> lineas = consola.pedirLineasConVolver(
+                "Adicione detalles del grafo -inicio, meta, nodos, aristas- (línea vacía para terminar; escriba 'volver' para cancelar):");
         if (lineas.isEmpty()) {
             lineas = GRAFO_EJEMPLO;
         }
