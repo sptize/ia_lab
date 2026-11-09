@@ -31,22 +31,25 @@ public final class ComandoHillClimbingGrafos implements Comando {
 
     @Override
     public String titulo() {
-        return "Hill Climbing - grafos";
+        return "Hill Climbing - grafos (sin reinicios; desde el nodo inicial)";
     }
 
     @Override
     public void execute(Consola consola) {
-        Optional<Grafo> grafo = escogerGrafo(consola);
-        if (grafo.isEmpty()) {
+        Optional<EntradaGrafo> entrada = escogerGrafo(consola);
+        if (entrada.isEmpty()) {
             return;
         }
 
-        Grafo instancia = grafo.get();
+        Grafo instancia = entrada.get().grafo();
         ProblemaGrafoLocal problema = new ProblemaGrafoLocal(instancia);
         HillClimbing<String> hillClimbing = new HillClimbing<>(new Random());
         ResultadoBusquedaLocal<String> resultado =
                 hillClimbing.solucionarDesde(problema, instancia.getInicio());
 
+        consola.println();
+        consola.println("Grafo utilizado:");
+        entrada.get().lineas().forEach(consola::println);
         consola.println();
         if (resultado.solucion()) {
             consola.println("Meta alcanzada: " + resultado.estado() + ".");
@@ -58,7 +61,7 @@ public final class ComandoHillClimbingGrafos implements Comando {
         consola.println("Recorrido: " + String.join(" -> ", resultado.recorrido()));
     }
 
-    private Optional<Grafo> escogerGrafo(Consola consola) {
+    private Optional<EntradaGrafo> escogerGrafo(Consola consola) {
         consola.println();
         consola.println("Ingrese el grafo (una línea por cada línea; vacío para usar el ejemplo):");
         consola.println("Hill Climbing usa la heurística y no necesita costos en las aristas.");
@@ -68,10 +71,13 @@ public final class ComandoHillClimbingGrafos implements Comando {
             lineas = GRAFO_EJEMPLO;
         }
         try {
-            return Optional.of(Grafo.parsear(lineas, true));
+            return Optional.of(new EntradaGrafo(Grafo.parsear(lineas, true), List.copyOf(lineas)));
         } catch (IllegalArgumentException e) {
             consola.println("Error al parsear el grafo: " + e.getMessage());
             return Optional.empty();
         }
+    }
+
+    private record EntradaGrafo(Grafo grafo, List<String> lineas) {
     }
 }

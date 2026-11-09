@@ -38,6 +38,17 @@ class ComandoHillClimbingGrafosTest {
         assertTrue(texto.contains("Recorrido: S -> A"), texto);
     }
 
+    @Test
+    void muestraElGrafoDeEjemploCuandoLaEntradaEstaVacia() {
+        String texto = ejecutar("\n");
+
+        assertTrue(texto.contains("Grafo utilizado:"), texto);
+        assertTrue(texto.contains("inicio: S"), texto);
+        assertTrue(texto.contains("meta: G"), texto);
+        assertTrue(texto.contains("S A 4"), texto);
+        assertTrue(texto.contains("C G 3"), texto);
+    }
+
     private static String ejecutar(String entrada) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream salida = new PrintStream(bytes, true, StandardCharsets.UTF_8);

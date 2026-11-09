@@ -18,7 +18,7 @@ public final class ComandoOchoReinas implements Comando {
      */
     @Override
     public String titulo() {
-        return "Hill Climbing - problema de las 8 reinas";
+        return "Hill Climbing - 8 reinas (con reinicios aleatorios)";
     }
 
     /**

@@ -22,11 +22,11 @@ El programa presenta estas opciones:
 | 1 | A* en laberinto | Busca un camino mínimo de costo en una cuadrícula con costes por celda. |
 | 2 | Greedy Best-First en laberinto | Prioriza la heurística y puede producir rutas no óptimas. |
 | 3 | Comparar A* vs Greedy en laberinto | Ejecuta ambos sobre el mismo mapa y compara resultados. |
-| 4 | Hill Climbing - 8 reinas | Resuelve el problema de las 8 reinas con reinicios aleatorios. |
+| 4 | Hill Climbing - 8 reinas | Resuelve el problema de las 8 reinas con reinicios aleatorios configurables. |
 | 5 | A* en grafos | Calcula un camino de menor costo en un grafo ponderado. |
 | 6 | Greedy Best-First en grafos | Busca un camino guiado por la heurística en grafos. |
 | 7 | Comparar A* vs Greedy en un grafo | Evalúa ambos algoritmos sobre el mismo grafo. |
-| 8 | Hill Climbing en grafos | Minimiza la heurística desde el nodo inicial y muestra el recorrido o el óptimo local alcanzado. |
+| 8 | Hill Climbing en grafos | Sin reinicios: comienza en el nodo `inicio`, minimiza la heurística y muestra el recorrido o el óptimo local alcanzado. |
 | 9 | Minimax vs alfa-beta - árbol de ejemplo | Ejecuta ambos algoritmos sobre un árbol de prueba, marca los subárboles podados y compara los nodos visitados. |
 | 10 | Minimax vs alfa-beta - tres en raya | Ejecuta ambos algoritmos sobre un tablero (o el vacío) y compara los nodos visitados. |
 | 0 | Salir | Cierra el programa. |
@@ -120,6 +120,7 @@ C G 3
 - Cada nodo tiene un nombre y una heurística asociada.
 - Cada arista se expresa como `origen destino costo`. En la opción 6 (solo Greedy Best-First) el costo es opcional: se puede escribir `origen destino`, porque Greedy solo usa la heurística. En ese caso el programa asigna costo 0 internamente y no muestra costo total. A* (opciones 5 y 7) sigue exigiendo el costo.
 - Hill Climbing también permite omitir los costos: empieza en `inicio`, toma el vecino de menor heurística y se detiene al llegar a `meta` o a un óptimo local. La heurística de la meta se trata como 0. El resumen muestra los pasos y reinicios; como esta búsqueda comienza en el nodo `inicio`, el número de reinicios es 0.
+- A diferencia de 8 reinas, Hill Climbing en grafos no ofrece reinicios aleatorios: siempre comienza en el nodo `inicio` declarado. El menú indica esta diferencia en los nombres de ambas opciones.
 - La búsqueda admite grafos ponderados y la heurística depende del problema concreto.
 - El análisis del grafo no comprueba automáticamente la admisibilidad de la heurística. Para hacerlo explícitamente en pruebas o experimentos, se puede llamar a `ValidadorHeuristica.validar(grafo)`.
 
