@@ -29,9 +29,9 @@ public final class Arboles {
      */
     public static List<Caso> casos() {
         return List.of(
-                new Caso("Árbol básico (2 niveles)", basico(), 3, 6),
-                new Caso("Árbol multinivel (MAX-MIN-MAX)", multinivel(), 7, 12),
-                new Caso("Árbol con valores negativos", negativo(), -2, 7),
+                new Caso("árbol básico (2 niveles)", basico(), 3, 6),
+                new Caso("árbol multinivel (MAX-MIN-MAX)", multinivel(), 7, 12),
+                new Caso("árbol con valores negativos", negativo(), -2, 7),
                 new Caso("Empate β == α, raíz MAX (poda en un nodo MIN)", empateRaizMax(), 3, 6),
                 new Caso("Empate α == β, raíz MIN (poda en un nodo MAX)", empateRaizMin(), 5, 6));
     }
