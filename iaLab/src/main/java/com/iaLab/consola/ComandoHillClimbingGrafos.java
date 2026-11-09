@@ -29,7 +29,7 @@ public final class ComandoHillClimbingGrafos implements Comando {
 
     @Override
     public String titulo() {
-        return "Hill Climbing - grafos (sin reinicios; búsqueda de caminos)";
+        return "Hill Climbing - grafos (sin reinicios; búsqueda de la meta guiada por heurística)";
     }
 
     @Override
