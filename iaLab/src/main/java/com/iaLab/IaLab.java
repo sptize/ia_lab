@@ -21,9 +21,9 @@ public final class IaLab {
     /**
      * Crea la consola, registra los comandos disponibles y ejecuta el menú principal.
      *
-     * @param args argumentos de línea de comandos (no utilizados)
+     *
      */
-    public static void main(String[] args) {
+    void main() {
         Consola consola = new Consola(System.in, System.out);
         List<Comando> comandos = List.of(
                 //Búsqueda informada
