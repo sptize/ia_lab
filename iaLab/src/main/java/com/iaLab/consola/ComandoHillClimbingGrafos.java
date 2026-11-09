@@ -48,15 +48,14 @@ public final class ComandoHillClimbingGrafos implements Comando {
                 hillClimbing.solucionarDesde(problema, instancia.getInicio());
 
         consola.println();
-        consola.println("Recorrido: " + String.join(" -> ", resultado.recorrido()));
         if (resultado.solucion()) {
-            consola.println("Meta alcanzada.");
+            consola.println("Meta alcanzada: " + resultado.estado() + ".");
         } else {
-            consola.println("Óptimo local: no hay un vecino con menor heurística.");
+            consola.println("Atascado en un óptimo local: el nodo " + resultado.estado()
+                    + " tiene heurística " + resultado.costo() + ".");
         }
-        consola.println("Pasos: " + resultado.pasos()
-                + " | Nodo final: " + resultado.estado()
-                + " | Heurística final: " + resultado.costo());
+        consola.println("Pasos: " + resultado.pasos() + " | Reinicios: " + resultado.reinicios());
+        consola.println("Recorrido: " + String.join(" -> ", resultado.recorrido()));
     }
 
     private Optional<Grafo> escogerGrafo(Consola consola) {

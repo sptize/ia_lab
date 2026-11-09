@@ -19,15 +19,32 @@ class ComandoHillClimbingGrafosTest {
         String entrada = String.join("\n",
                 "inicio: S", "meta: G", "nodos:", "S 3", "A 1", "G 0",
                 "aristas:", "S A", "A G", "", "");
+        String texto = ejecutar(entrada);
+
+        assertTrue(texto.contains("Recorrido: S -> A -> G"), texto);
+        assertTrue(texto.contains("Meta alcanzada: G."), texto);
+        assertTrue(texto.contains("Pasos: 2 | Reinicios: 0"), texto);
+    }
+
+    @Test
+    void informaElOptimoLocalConElMismoFormatoDeResumen() {
+        String entrada = String.join("\n",
+                "inicio: S", "meta: G", "nodos:", "S 4", "A 1", "G 0",
+                "aristas:", "S A", "A S", "", "");
+        String texto = ejecutar(entrada);
+
+        assertTrue(texto.contains("Atascado en un óptimo local: el nodo A tiene heurística 1.0."), texto);
+        assertTrue(texto.contains("Pasos: 1 | Reinicios: 0"), texto);
+        assertTrue(texto.contains("Recorrido: S -> A"), texto);
+    }
+
+    private static String ejecutar(String entrada) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream salida = new PrintStream(bytes, true, StandardCharsets.UTF_8);
         Consola consola = new Consola(
                 new ByteArrayInputStream(entrada.getBytes(StandardCharsets.UTF_8)), salida);
 
         new ComandoHillClimbingGrafos().execute(consola);
-
-        String texto = bytes.toString(StandardCharsets.UTF_8);
-        assertTrue(texto.contains("Recorrido: S -> A -> G"), texto);
-        assertTrue(texto.contains("Meta alcanzada."), texto);
+        return bytes.toString(StandardCharsets.UTF_8);
     }
 }
