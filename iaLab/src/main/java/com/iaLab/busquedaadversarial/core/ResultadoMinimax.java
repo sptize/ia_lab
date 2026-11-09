@@ -14,46 +14,54 @@ package com.iaLab.busquedaadversarial.core;
  * <p>Por tanto, siempre se cumple: hojasEvaluadas &lt;= nodosVisitados.</p>
  */
 public final class ResultadoMinimax {
-
-    private int valor;
-    private long nodosVisitados;
-    private long hojasEvaluadas;
-
-    // Solo Minimax (mismo paquete) modifica los contadores; el resto únicamente los lee.
-    void asignarValor(int valor) { this.valor = valor; }
-    void contarNodo()            { nodosVisitados++; }
-    void contarHoja()            { hojasEvaluadas++; }
-
-    /**
-     * Devuelve el valor minimax del estado inicial.
-     *
-     * @return valor minimax
-     */
-    public int valor() {
-        return valor;
-    }
-
-    /**
-     * Devuelve la cantidad de nodos visitados (invocaciones recursivas, raíz incluida).
-     *
-     * @return nodos visitados
-     */
-    public long nodosVisitados() {
-        return nodosVisitados;
-    }
-
-    /**
-     * Devuelve la cantidad de hojas evaluadas (estados terminales cuya utilidad se consultó).
-     *
-     * @return hojas evaluadas
-     */
-    public long hojasEvaluadas() {
-        return hojasEvaluadas;
-    }
-
-    @Override
-    public String toString() {
-        return "valor=" + valor + ", nodosVisitados=" + nodosVisitados
-                + ", hojasEvaluadas=" + hojasEvaluadas;
-    }
+  
+  private int valor;
+  private long nodosVisitados;
+  private long hojasEvaluadas;
+  
+  // Solo Minimax (mismo paquete) modifica los contadores; el resto únicamente los lee.
+  void asignarValor(int valor) {
+    this.valor = valor;
+  }
+  
+  void contarNodo() {
+    nodosVisitados++;
+  }
+  
+  void contarHoja() {
+    hojasEvaluadas++;
+  }
+  
+  /**
+   * Devuelve el valor minimax del estado inicial.
+   *
+   * @return valor minimax
+   */
+  public int valor() {
+    return valor;
+  }
+  
+  /**
+   * Devuelve la cantidad de nodos visitados (invocaciones recursivas, raíz incluida).
+   *
+   * @return nodos visitados
+   */
+  public long nodosVisitados() {
+    return nodosVisitados;
+  }
+  
+  /**
+   * Devuelve la cantidad de hojas evaluadas (estados terminales cuya utilidad se consultó).
+   *
+   * @return hojas evaluadas
+   */
+  public long hojasEvaluadas() {
+    return hojasEvaluadas;
+  }
+  
+  @Override
+  public String toString() {
+    return "valor=" + valor + ", nodosVisitados=" + nodosVisitados
+        + ", hojasEvaluadas=" + hojasEvaluadas;
+  }
 }

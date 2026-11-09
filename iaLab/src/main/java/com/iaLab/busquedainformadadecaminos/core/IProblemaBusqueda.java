@@ -23,36 +23,36 @@ import java.util.List;
  *            estables)
  */
 public interface IProblemaBusqueda<S> {
-
-    /**
-     * Devuelve el estado inicial del problema.
-     *
-     * @return estado inicial
-     */
-    S estadoInicial();
-
-    /**
-     * Indica si el estado indicado satisface la meta.
-     *
-     * @param estado estado que se evalúa
-     * @return {@code true} si el estado es meta
-     */
-    boolean esMeta(S estado);
-
-    /**
-     * Devuelve los estados alcanzables desde el estado indicado, junto con la acción y el costo de cada paso.
-     *
-     * @param estado estado cuyos sucesores se solicitan
-     * @return transiciones disponibles desde el estado
-     */
-    List<Paso<S>> sucesores(S estado);
-
-    /**
-     * Estima el costo restante desde el estado hasta la meta.
-     *
-     * @param estado estado cuya distancia estimada se calcula
-     * @return estimación heurística finita y no negativa del costo restante; para garantizar
-     *         optimalidad con A*, no debe sobreestimar el costo mínimo real
-     */
-    double heuristica(S estado);
+  
+  /**
+   * Devuelve el estado inicial del problema.
+   *
+   * @return estado inicial
+   */
+  S estadoInicial();
+  
+  /**
+   * Indica si el estado indicado satisface la meta.
+   *
+   * @param estado estado que se evalúa
+   * @return {@code true} si el estado es meta
+   */
+  boolean esMeta(S estado);
+  
+  /**
+   * Devuelve los estados alcanzables desde el estado indicado, junto con la acción y el costo de cada paso.
+   *
+   * @param estado estado cuyos sucesores se solicitan
+   * @return transiciones disponibles desde el estado
+   */
+  List<Paso<S>> sucesores(S estado);
+  
+  /**
+   * Estima el costo restante desde el estado hasta la meta.
+   *
+   * @param estado estado cuya distancia estimada se calcula
+   * @return estimación heurística finita y no negativa del costo restante; para garantizar
+   * optimalidad con A*, no debe sobreestimar el costo mínimo real
+   */
+  double heuristica(S estado);
 }
