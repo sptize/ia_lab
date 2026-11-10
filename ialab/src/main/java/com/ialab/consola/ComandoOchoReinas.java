@@ -29,7 +29,7 @@ public final class ComandoOchoReinas implements Comando {
   @Override
   public void execute(Consola consola) {
     consola.println();
-    consola.println("Sin reinicios, Hill Climbing suele quedarse atascado en un óptimo local.");
+    consola.println("Sin reinicios, Hill Climbing suele quedarse atascado.");
     int reinicios = consola.pedirOpcionDeMapaConVolver(
         "Reinicios aleatorios permitidos (0 a " + MAX_REINICIOS + "; escribe 'volver' para regresar): ",
         0, MAX_REINICIOS);
