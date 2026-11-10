@@ -42,7 +42,7 @@ public final class ComandoOchoReinas implements Comando {
       consola.println("Solución encontrada.");
     } else {
       int pairs = (int) resultado.costo();
-      consola.println("Atascado en un óptimo local: "
+      consola.println("Atascado: "
           + (pairs == 1 ? "1 par de reinas se ataca." : pairs + " pares de reinas se atacan."));
     }
     consola.println("Pasos: " + resultado.pasos() + " | Reinicios: " + resultado.reinicios());
