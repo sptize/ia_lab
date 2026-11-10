@@ -146,64 +146,89 @@ C G 3
 ## Estructura del proyecto
 
 ```text
-iaLab/
-├── pom.xml
+ia_lab/
 ├── README.md
-├── src/
-│   └── main/
-│       └── java/
-│           └── com/
-│               └── iaLab/
-│                   ├── IaLab.java
-│                   ├── consola/
-│                   │   ├── Comando.java
-│                   │   ├── ComandoBusquedaCaminos.java
-│                   │   ├── ComandoBusquedaCaminosGrafos.java
-│                   │   ├── ComandoMinimaxArbol.java
-│                   │   ├── ComandoMinimaxTresEnRaya.java
-│                   │   ├── ComandoOchoReinas.java
-│                   │   ├── Consola.java
-│                   │   └── Menu.java
-│                   ├── busquedainformadadecaminos/
-│                   │   ├── core/
-│                   │   │   ├── BusquedaAEstrella.java
-│                   │   │   ├── BusquedaPrimeroMejor.java
-│                   │   │   ├── BusquedaPrimeroMejorVoraz.java
-│                   │   │   ├── IAlgoritmoBusqueda.java
-│                   │   │   ├── IProblemaBusqueda.java
-│                   │   │   ├── Nodo.java
-│                   │   │   ├── Paso.java
-│                   │   │   └── ResultadoBusqueda.java
-│                   │   ├── grafos/
-│                   │   │   ├── Grafo.java
-│                   │   │   ├── GrafoProblema.java
-│                   │   │   └── ValidadorHeuristica.java
-│                   │   └── laberintos/
-│                   │       ├── Cuadricula.java
-│                   │       ├── CuadriculaProblema.java
-│                   │       ├── Direccion.java
-│                   │       └── Posicion.java
-│                   ├── busquedainformadalocal/
-│                   │   ├── core/
-│                   │   │   ├── HillClimbing.java
-│                   │   │   ├── IProblemaBusquedaLocal.java
-│                   │   │   └── ResultadoBusquedaLocal.java
-│                   │   └── ochoreinas/
-│                   │       ├── ProblemaOchoReinas.java
-│                   │       └── TableroOchoReinas.java
-│                   └── busquedaadversarial/
-│                       ├── core/
-│                       │   ├── Comparacion.java
-│                       │   ├── IEstadoJuego.java
-│                       │   ├── Minimax.java
-│                       │   └── ResultadoMinimax.java
-│                       ├── arbolgenerico/
-│                       │   ├── Arboles.java
-│                       │   ├── ImpresoraArbol.java
-│                       │   ├── NodoArbol.java
-│                       │   └── NodoTrazado.java
-│                       └── tresenraya/
-│                           └── EstadoTresEnRaya.java
+└── ialab/
+    ├── .gitignore
+    ├── pom.xml
+    └── src/
+        ├── main/
+        │   └── java/
+        │       └── com/ialab/
+        │           ├── IaLab.java
+        │           ├── busquedaadversarial/
+        │           │   ├── arbolgenerico/
+        │           │   │   ├── Arboles.java
+        │           │   │   ├── ImpresoraArbol.java
+        │           │   │   ├── NodoArbol.java
+        │           │   │   └── NodoTrazado.java
+        │           │   ├── core/
+        │           │   │   ├── Comparacion.java
+        │           │   │   ├── IEstadoJuego.java
+        │           │   │   ├── Minimax.java
+        │           │   │   └── ResultadoMinimax.java
+        │           │   └── tresenraya/
+        │           │       └── EstadoTresEnRaya.java
+        │           ├── busquedainformadadecaminos/
+        │           │   ├── core/
+        │           │   │   ├── BusquedaAEstrella.java
+        │           │   │   ├── BusquedaPrimeroMejor.java
+        │           │   │   ├── BusquedaPrimeroMejorVoraz.java
+        │           │   │   ├── IAlgoritmoBusqueda.java
+        │           │   │   ├── IProblemaBusqueda.java
+        │           │   │   ├── Nodo.java
+        │           │   │   ├── Paso.java
+        │           │   │   └── ResultadoBusqueda.java
+        │           │   ├── grafos/
+        │           │   │   ├── GrafoProblema.java
+        │           │   │   └── ValidadorHeuristica.java
+        │           │   └── laberintos/
+        │           │       ├── Cuadricula.java
+        │           │       ├── CuadriculaProblema.java
+        │           │       ├── Direccion.java
+        │           │       └── Posicion.java
+        │           ├── busquedainformadalocal/
+        │           │   ├── core/
+        │           │   │   ├── HillClimbing.java
+        │           │   │   ├── IProblemaBusquedaLocal.java
+        │           │   │   └── ResultadoBusquedaLocal.java
+        │           │   ├── grafos/
+        │           │   │   └── ProblemaGrafoLocal.java
+        │           │   └── ochoreinas/
+        │           │       ├── ProblemaOchoReinas.java
+        │           │       └── TableroOchoReinas.java
+        │           ├── consola/
+        │           │   ├── Comando.java
+        │           │   ├── ComandoBusquedaCaminos.java
+        │           │   ├── ComandoBusquedaCaminosGrafos.java
+        │           │   ├── ComandoHillClimbingGrafos.java
+        │           │   ├── ComandoMinimaxArbol.java
+        │           │   ├── ComandoMinimaxTresEnRaya.java
+        │           │   ├── ComandoOchoReinas.java
+        │           │   ├── Consola.java
+        │           │   └── Menu.java
+        │           └── grafo/
+        │               └── Grafo.java
+        └── test/
+            └── java/
+                └── com/busquedainformada/iaLab/
+                    ├── adversarial/
+                    │   ├── MinimaxArbolTest.java
+                    │   └── MinimaxTresEnRayaTest.java
+                    ├── algoritmos/
+                    │   └── BusquedaPrimeroMejorTest.java
+                    ├── busquedadecaminos/
+                    │   ├── CuadriculaTest.java
+                    │   ├── GrafoParserTest.java
+                    │   ├── GrafoTest.java
+                    │   └── ValidadorHeuristicaTest.java
+                    ├── consola/
+                    │   ├── ComandoBusquedaCaminosGrafosTest.java
+                    │   ├── ComandoHillClimbingGrafosTest.java
+                    │   └── MenuVolverTest.java
+                    └── local/
+                        ├── HillClimbingGrafoTest.java
+                        └── ResultadoBusquedaLocalTest.java
 ```
 
 ## Búsqueda adversarial
