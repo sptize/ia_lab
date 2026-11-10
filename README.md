@@ -50,14 +50,14 @@ escribe `volver`.
 Desde la raíz del repositorio, entra al directorio del proyecto:
 
 ```bash
-cd iaLab
+cd ialab
 ```
 
 Compila y ejecuta:
 
 ```bash
 mvn package
-java -cp target/classes com.iaLab.IaLab
+java -cp target/classes com.ialab.IaLab
 ```
 
 También puedes compilar directamente con `javac` si lo prefieres:
@@ -65,7 +65,7 @@ También puedes compilar directamente con `javac` si lo prefieres:
 ```bash
 mkdir -p out
 javac -d out $(find src/main/java -name "*.java")
-java -cp out com.iaLab.IaLab
+java -cp out com.ialab.IaLab
 ```
 
 En PowerShell (Windows):
@@ -74,7 +74,7 @@ En PowerShell (Windows):
 New-Item -ItemType Directory -Force out | Out-Null
 $archivos = Get-ChildItem -Recurse src\main\java -Filter *.java | ForEach-Object { $_.FullName }
 javac -d out $archivos
-java -cp out com.iaLab.IaLab
+java -cp out com.ialab.IaLab
 ```
 
 ## Formato de entrada para mapas
