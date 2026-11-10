@@ -54,7 +54,7 @@ public final class ComandoHillClimbingGrafos implements Comando {
     if (resultado.solucion()) {
       consola.println("Meta alcanzada: " + resultado.estado() + ".");
     } else {
-      consola.println("Atascado en un óptimo local: el nodo " + resultado.estado()
+      consola.println("No se encontró vecino con mejor heurística: el nodo " + resultado.estado()
           + " tiene heurística " + resultado.costo() + ".");
     }
     consola.println("Pasos: " + resultado.pasos() + " | Reinicios: " + resultado.reinicios());
