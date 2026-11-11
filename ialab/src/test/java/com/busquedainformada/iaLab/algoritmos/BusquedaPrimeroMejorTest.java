@@ -46,12 +46,12 @@ class BusquedaPrimeroMejorTest {
         Map.of(
             "S", List.of(new Paso<>("a", "A", 3), new Paso<>("b", "B", 1)),
             "A", List.of(new Paso<>("meta", "G", 2)),
-            "B", List.of(new Paso<>("mejorar", "A", 1), new Paso<>("alternativa", "G", 100)),
+            "B", List.of(new Paso<>("mejorar", "A", 1),
+                new Paso<>("alternativa", "G", 100)),
             "G", List.of()),
-        Map.of("S", 4.0, "A", 0.0, "B", 2.0, "G", 0.0));
+        Map.of("S", 4.0, "A", 0.0, "B", 3.0, "G", 0.0));
     
     ResultadoBusqueda<String> resultado = new BusquedaAEstrella().solucionar(problema).orElseThrow();
-    
     assertEquals(4.0, resultado.costoTotal());
     assertEquals(List.of("S", "B", "A", "G"), resultado.estados());
   }
