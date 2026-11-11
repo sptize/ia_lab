@@ -6,10 +6,24 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * Hill Climbing de máxima pendiente (steepest-ascent) con reinicios aleatorios opcionales.
- * En cada paso se mueve al mejor vecino; si ninguno mejora el estado actual, está en un
- * óptimo local y (si quedan reinicios) vuelve a empezar desde un estado aleatorio.
- */
+*
+* Implementa el algoritmo Hill Climbing mediante la estrategia
+* Steepest-Descent.
+* 
+* En cada iteración se evalúan los vecinos del estado actual
+* y se selecciona aquel que presenta el menor costo.
+* 
+* El algoritmo realiza el movimiento únicamente cuando el
+* vecino seleccionado mejora estrictamente el costo del estado
+* actual. Si no existe ningún vecino que cumpla esta condición,
+* la búsqueda termina, alcanzando un mínimo local respecto al
+* vecindario definido por el problema.
+* 
+* Este criterio de terminación no garantiza alcanzar el mínimo
+* global y puede provocar que la búsqueda se detenga ante
+* configuraciones como mesetas, cuando no se permiten
+* movimientos laterales.
+  */
 public final class HillClimbing<S> {
   
   private final Random aleatorio;
@@ -65,7 +79,7 @@ public final class HillClimbing<S> {
    *
    * @param problema      problema de búsqueda local que se va a resolver
    * @param estadoInicial estado desde el que comienza la búsqueda
-   * @return resultado con la solución o el óptimo local alcanzado
+   * @return resultado con la solución o el punto de estancamiento alcanzado
    */
   public ResultadoBusquedaLocal<S> solucionarDesde(IProblemaBusquedaLocal<S> problema, S estadoInicial) {
     Objects.requireNonNull(problema, "problema");
