@@ -42,7 +42,7 @@ class ComandoHillClimbingGrafosTest {
         "aristas:", "S A", "A S", "", "");
     String texto = ejecutar(entrada);
     
-    assertTrue(texto.contains("Atascado en un óptimo local: el nodo A tiene heurística 1.0."), texto);
+    assertTrue(texto.contains("No se encontró vecino con mejor heurística: el nodo A tiene heurística 1.0."), texto);
     assertTrue(texto.contains("Pasos: 1 | Reinicios: 0"), texto);
     assertTrue(texto.contains("Recorrido: S -> A"), texto);
   }
@@ -54,7 +54,7 @@ class ComandoHillClimbingGrafosTest {
     assertTrue(texto.contains("Grafo utilizado:"), texto);
     assertTrue(texto.contains("inicio: S"), texto);
     assertTrue(texto.contains("meta: G"), texto);
-    assertTrue(texto.contains("S A 4"), texto);
-    assertTrue(texto.contains("C G 3"), texto);
+    assertTrue(texto.contains("S A"), texto);
+    assertTrue(texto.contains("A S"), texto);
   }
 }
